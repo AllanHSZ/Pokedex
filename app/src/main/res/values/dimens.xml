@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--            SPACE         -->
+    <dimen name="spaceSM">4dp</dimen>
+    <dimen name="spaceMD">8dp</dimen>
+    <dimen name="spaceLG">16dp</dimen>
+    <dimen name="spaceXL">24dp</dimen>
+    <dimen name="spaceXXL">40dp</dimen>
+    <!--============================-->
+
+    <dimen name="fabCradleMargin">12dp</dimen>
+    <dimen name="fabCradleVerticalOffset">8dp</dimen>
+
+</resources>

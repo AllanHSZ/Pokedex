@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Pokedex</string>
+
+    <string name="nenhum">Nenhum</string>
+    <string name="normal">Normal</string>
+    <string name="fogo">Fogo</string>
+    <string name="lutador">Lutador</string>
+    <string name="agua">Água</string>
+    <string name="voador">Voador</string>
+    <string name="planta">Planta</string>
+    <string name="venenoso">Venenoso</string>
+    <string name="eletrico">Elétrico</string>
+    <string name="terreste">Terrestre</string>
+    <string name="psiquico">Psiquico</string>
+    <string name="pedra">Pedra</string>
+    <string name="gelo">Gelo</string>
+    <string name="inseto">Inseto</string>
+    <string name="dragao">Dragão</string>
+    <string name="fantasma">Fantasma</string>
+    <string name="sombrio">Sombrio</string>
+    <string name="aco">Aço</string>
+    <string name="fada">Fada</string>
 </resources>
