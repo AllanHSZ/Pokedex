@@ -41,6 +41,10 @@ public class PokemonActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
+        
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getColor(R.color.colorPrimary));
 
         back = findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -68,13 +72,13 @@ public class PokemonActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             oper = 'A';
-            setColor(getColor(R.color.nenhum), getColor(R.color.black));
+            //setColor(getColor(R.color.nenhum), getColor(R.color.black));
         } else {
             oper = 'E';
             pokemon = extras.getParcelable("pokemon");
 
-            final int resourceId = getResources().getIdentifier(pokemon.getType().get(0).toLowerCase(), "color", getPackageName());
-            setColor(getColor(resourceId), getColor(R.color.white));
+            //final int resourceId = getResources().getIdentifier(pokemon.getType().get(0).toLowerCase(), "color", getPackageName());
+            //setColor(getColor(resourceId), getColor(R.color.white));
         }
 
 
@@ -114,19 +118,5 @@ public class PokemonActivity extends AppCompatActivity {
                 });
             }
         });
-    }
-
-    public void setColor(int color, int onSurface){
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(color);
-
-        solidDeco.setBackgroundColor(color);
-        wave.getBackground().setColorFilter(color, android.graphics.PorterDuff.Mode.SRC_IN);
-
-        back.getDrawable().setColorFilter(onSurface, android.graphics.PorterDuff.Mode.SRC_IN);
-
-        action.setBackgroundTintList(ColorStateList.valueOf(color));
-        action.setTextColor(color == getColor(R.color.nenhum) ? onSurface : getColor(R.color.white));
     }
 }
