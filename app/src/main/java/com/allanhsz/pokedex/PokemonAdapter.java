@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private ArrayList<Pokemon> pokemon;
+    private ArrayList<Pokemon> pokemons;
     private ItemClickListener onClickListener;
 
     public PokemonAdapter(ArrayList<Pokemon> pokemons) {
-        this.pokemon = pokemons;
+        this.pokemons = pokemons;
     }
 
     @NonNull
@@ -32,12 +32,14 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
-        holder.number.setText(String.valueOf(pokemon.get(position).getNumero()));
-        holder.name.setText(pokemon.get(position).getNome());
+        Pokemon pokemon = pokemons.get(position);
+        
+        holder.number.setText(String.valueOf(pokemon.getNumero()));
+        holder.name.setText(pokemon.getNome());
 
-        if (pokemon.get(position).getImg() != null && !pokemon.get(position).getImg().isEmpty()) {
+        if (pokemon.getImg() != null && !pokemon.getImg().isEmpty()) {
             Picasso.get()
-                    .load(pokemon.get(position).getImg())
+                    .load(pokemon.getImg())
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.ic_error_outline)
                     .into (holder.img);
@@ -46,7 +48,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public int getItemCount() {
-        return pokemon.size();
+        return pokemons.size();
     }
 
     void setClickListener(ItemClickListener itemClickListener) {
