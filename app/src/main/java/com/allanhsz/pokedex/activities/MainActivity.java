@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
                 startActivity(new Intent(MainActivity.this, PokemonActivity.class));
             }
         });
-
     }
 
     @Override
@@ -59,14 +58,11 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
     public void getPokemons(){
         setLoading(true);
 
-        PokemonService service = PokemonService.retrofit.create(PokemonService.class);
-        Call<ArrayList<Pokemon>> request = service.listPokemon();
-
-        request.enqueue(new Callback<ArrayList<Pokemon>>() {
+        PokemonService.build().list().enqueue(new Callback<ArrayList<Pokemon>>() {
             @Override
             public void onResponse(Call<ArrayList<Pokemon>> call, Response<ArrayList<Pokemon>> response) {
                 setLoading(false);
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     pokemons.clear();
                     pokemons.addAll(response.body());
                     adapter.notifyDataSetChanged();
