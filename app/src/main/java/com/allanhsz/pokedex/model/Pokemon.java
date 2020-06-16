@@ -3,21 +3,22 @@ package com.allanhsz.pokedex.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
 import java.util.ArrayList;
 
 public class Pokemon implements Parcelable {
 
-    private ArrayList<String> habilidade;
     private String id ;
-    private String nome;
     private int numero;
+    
+    private String nome;
     private String img;
-    private ArrayList<String> type;
     private String peso;
-
-    public Pokemon(){
-
-    }
+    
+    private List<String> type;
+    private List<String> habilidade;
+    
+    public Pokemon(){}
 
     public ArrayList<String> getHabilidade() {
         return habilidade;
