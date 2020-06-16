@@ -99,24 +99,24 @@ public class PokemonActivity extends AppCompatActivity {
                 types.add(type2.getText().toString());
                 newPokemon.setType(types);
 
-                PokemonService service = PokemonService.retrofit.create(PokemonService.class);
-                final Call<Void> call = service.insertPokemon(newPokemon);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (dialog.isShowing())
-                            dialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Pokemon inserido com sucesso", Toast.LENGTH_SHORT).show();
-                    }
+                PokemonService.build()
+                        .create(newPokemon)
+                        .enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (dialog.isShowing()) dialog.dismiss();
+                            
+                            Toast.makeText(getBaseContext(), "Pokemon inserido com sucesso", Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        if (dialog.isShowing())
-                            dialog.dismiss();
-                        Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            if (dialog.isShowing()) dialog.dismiss();
+                            
+                            Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
         });
     }
 }
