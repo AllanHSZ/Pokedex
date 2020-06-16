@@ -20,10 +20,14 @@ public interface PokemonService {
 
     @POST("pokemons")
     Call<Void> insertPokemon(@Body Pokemon pokemon);
+    
+    public static PokemonService build() {
+        return retrofit.create(PokemonService.class);
+    }
 
-
-    public final Retrofit retrofit = new Retrofit.Builder()
+    private static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(PokemonService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+    
 }
