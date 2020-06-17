@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
         rvPokemon = findViewById(R.id.RvPokemon);
         rvPokemon.setLayoutManager(new GridLayoutManager(this, 2));
 
-        adapter = new PokemonAdapter(pokemons);
+        adapter = new PokemonAdapter(this, pokemons);
         rvPokemon.setAdapter(adapter);
 
         findViewById(R.id.Add).setOnClickListener(new View.OnClickListener() {
@@ -59,10 +59,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
     public void getPokemons(){
         setLoading(true);
 
-        PokemonService service = PokemonService.retrofit.create(PokemonService.class);
-        Call<ArrayList<Pokemon>> request = service.listPokemon();
-
-        request.enqueue(new Callback<ArrayList<Pokemon>>() {
+        PokemonService.create.list().enqueue(new Callback<ArrayList<Pokemon>>() {
             @Override
             public void onResponse(Call<ArrayList<Pokemon>> call, Response<ArrayList<Pokemon>> response) {
                 setLoading(false);
@@ -77,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
             @Override
             public void onFailure(Call<ArrayList<Pokemon>> call, Throwable t) {
                 setLoading(false);
-
                 new HandlerErro(MainActivity.this, t);
             }
         });

@@ -16,14 +16,15 @@ public interface PokemonService {
     public final String BASE_URL = "http://167.71.255.6:8080/";
 
     @GET("pokemons")
-    Call<ArrayList<Pokemon>> listPokemon();
+    Call<ArrayList<Pokemon>> list();
 
     @POST("pokemons")
-    Call<Void> insertPokemon(@Body Pokemon pokemon);
+    Call<Void> insert(@Body Pokemon pokemon);
 
-
-    public final Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(PokemonService.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build();
+
+    PokemonService create  = retrofit.create(PokemonService.class);
 }
