@@ -3,11 +3,10 @@ package com.allanhsz.pokedex.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.webkit.URLUtil;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,8 +16,10 @@ import android.widget.Toast;
 import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
-import com.allanhsz.pokedex.utils.Utils;
+import com.allanhsz.pokedex.Types;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,20 +32,27 @@ public class PokemonActivity extends AppCompatActivity {
 
     private char oper;
     private Pokemon pokemon;
-    private ImageView back;
+    private ImageView back, preview;
     private Button action;
     private View solidDeco, wave;
-    private TextInputEditText name, number;
+    private TextInputLayout imageLayout;
+    private TextInputEditText name, number, image;
     private AutoCompleteTextView type1, type2;
+    private ArrayList<String> allTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
-        
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(getColor(R.color.colorPrimary));
+
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            oper = 'I';
+            pokemon = new Pokemon();
+        } else {
+            oper = 'E';
+            pokemon = extras.getParcelable("pokemon");
+        }
 
         back = findViewById(R.id.Back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +64,10 @@ public class PokemonActivity extends AppCompatActivity {
         solidDeco = findViewById(R.id.SolidDeco);
         wave = findViewById(R.id.Wave);
 
+        preview = findViewById(R.id.Preview);
+
+        imageLayout = findViewById(R.id.ImageLayout);
+        image = findViewById(R.id.Image);
         name = findViewById(R.id.Name);
         number = findViewById(R.id.Number);
         type1 = findViewById(R.id.Type1);
@@ -63,24 +75,56 @@ public class PokemonActivity extends AppCompatActivity {
 
         action = findViewById(R.id.Action);
 
-        ArrayAdapter<String> adapterType1 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, Utils.getTypes(this));
+        image.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(!hasFocus) {
+                    String url = Objects.requireNonNull(image.getText()).toString();
+                    if (!url.isEmpty()) {
+                        if(URLUtil.isValidUrl(Objects.requireNonNull(image.getText()).toString())) {
+                            Picasso.get()
+                                    .load(image.getText().toString())
+                                    .into(preview, new com.squareup.picasso.Callback() {
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            imageLayout.setError("Url invido");
+                                        }
+                                    });
+                        } else {
+                            imageLayout.setError("Url invido");
+                        }
+                    }
+                } else {
+                    imageLayout.setErrorEnabled(false);
+                }
+            }
+        });
+
+        allTypes = Types.getTypes(this);
+
+        final ArrayAdapter<String> adapterType1 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, allTypes);
         type1.setAdapter(adapterType1);
+        type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
+                pokemon.getTipo()[0] = p;
+            }
+        });
 
-        ArrayAdapter<String> adapterType2 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, Utils.getSecondTypes(this));
+        allTypes.add(0, getString(R.string.type0));
+        ArrayAdapter<String> adapterType2 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, allTypes);
         type2.setAdapter(adapterType2);
-
-        Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            oper = 'A';
-            //setColor(getColor(R.color.nenhum), getColor(R.color.black));
-        } else {
-            oper = 'E';
-            pokemon = extras.getParcelable("pokemon");
-
-            //final int resourceId = getResources().getIdentifier(pokemon.getType().get(0).toLowerCase(), "color", getPackageName());
-            //setColor(getColor(resourceId), getColor(R.color.white));
-        }
-
+        type2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
+                    pokemon.getTipo()[1] = p;
+            }
+        });
 
         action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,18 +134,14 @@ public class PokemonActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
 
-                Pokemon newPokemon = new Pokemon();
-                newPokemon.setNome(Objects.requireNonNull(name.getText()).toString());
-                newPokemon.setNumero(Integer.parseInt(Objects.requireNonNull(number.getText()).toString()));
+                pokemon.setNome(Objects.requireNonNull(name.getText()).toString());
+                pokemon.setNumero(Integer.parseInt(Objects.requireNonNull(number.getText()).toString()));
 
-                ArrayList<String> types = new ArrayList<>();
-                types.add(type1.getText().toString());
-                types.add(type2.getText().toString());
-                newPokemon.setType(types);
+                if(pokemon.getImagem() != null){
+                    pokemon.setImagem(pokemon.getImagem());
+                }
 
-                PokemonService service = PokemonService.retrofit.create(PokemonService.class);
-                final Call<Void> call = service.insertPokemon(newPokemon);
-                call.enqueue(new Callback<Void>() {
+                PokemonService.reference.insert(pokemon).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (dialog.isShowing())

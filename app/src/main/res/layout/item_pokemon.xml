@@ -52,10 +52,10 @@
     <LinearLayout
         android:id="@+id/TypesContainer"
         android:layout_width="0dp"
-        android:layout_height="24dp"
+        android:layout_height="@dimen/item_type"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="@+id/Name"
         app:layout_constraintTop_toBottomOf="@+id/Name"></LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,17 +7,15 @@ import java.util.ArrayList;
 
 public class Pokemon implements Parcelable {
 
-    private ArrayList<String> habilidade;
     private String id ;
     private String nome;
+    private String imagem;
     private int numero;
-    private String img;
-    private ArrayList<String> type;
-    private String peso;
+    private double peso;
+    private int[] tipo = new int[2];
+    private ArrayList<String> habilidade;
 
-    public Pokemon(){
-
-    }
+    public Pokemon(){}
 
     public ArrayList<String> getHabilidade() {
         return habilidade;
@@ -51,27 +49,27 @@ public class Pokemon implements Parcelable {
         this.numero = numero;
     }
 
-    public String getImg() {
-        return img;
+    public String getImagem() {
+        return imagem;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImagem(String img) {
+        this.imagem = img;
     }
 
-    public ArrayList<String> getType() {
-        return type;
+    public int[] getTipo() {
+        return tipo;
     }
 
-    public void setType(ArrayList<String> type) {
-        this.type = type;
+    public void setTipo(int[] tipo) {
+        this.tipo = tipo;
     }
 
-    public String getPeso() {
+    public double getPeso() {
         return peso;
     }
 
-    public void setPeso(String peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
@@ -80,9 +78,9 @@ public class Pokemon implements Parcelable {
         id = in.readString();
         nome = in.readString();
         numero = in.readInt();
-        img = in.readString();
-        type = in.createStringArrayList();
-        peso = in.readString();
+        imagem = in.readString();
+//        type = in.createIntArray();
+        peso = in.readDouble();
     }
 
     @Override
@@ -91,9 +89,9 @@ public class Pokemon implements Parcelable {
         dest.writeString(id);
         dest.writeString(nome);
         dest.writeInt(numero);
-        dest.writeString(img);
-        dest.writeStringList(type);
-        dest.writeString(peso);
+        dest.writeString(imagem);
+//        dest.writeIntArray(type);
+        dest.writeDouble(peso);
     }
 
     @Override

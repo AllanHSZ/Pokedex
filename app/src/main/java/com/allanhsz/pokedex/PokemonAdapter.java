@@ -1,9 +1,12 @@
 package com.allanhsz.pokedex;
 
+import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,11 +19,16 @@ import java.util.ArrayList;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private ArrayList<Pokemon> pokemon;
+    private Context context;
+    private ArrayList<Pokemon> pokemons;
     private ItemClickListener onClickListener;
+    private int typeSize;
 
-    public PokemonAdapter(ArrayList<Pokemon> pokemons) {
-        this.pokemon = pokemons;
+    public PokemonAdapter(Context context, ArrayList<Pokemon> pokemons) {
+        this.context = context;
+        this.pokemons = pokemons;
+
+        typeSize = (int) context.getResources().getDimension(R.dimen.item_type);
     }
 
     @NonNull
@@ -32,12 +40,28 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
-        holder.number.setText(String.valueOf(pokemon.get(position).getNumero()));
-        holder.name.setText(pokemon.get(position).getNome());
+        Pokemon pokemon = pokemons.get(position);
 
-        if (pokemon.get(position).getImg() != null && !pokemon.get(position).getImg().isEmpty()) {
+        holder.number.setText(String.valueOf(pokemon.getNumero()));
+        holder.name.setText(pokemon.getNome());
+
+
+        if (pokemon.getTipo() != null){
+            for (int i=0; i < pokemon.getTipo().length; i++){
+                if(pokemon.getTipo()[i] == 0)
+                    continue;
+
+                ImageView type = new ImageView(context);
+                type.setLayoutParams(new LinearLayout.LayoutParams(typeSize, typeSize));
+                int r = context.getResources().getIdentifier("ic_type"+pokemon.getTipo()[i], "drawable", context.getPackageName());
+                type.setBackground(context.getDrawable(r));
+                holder.typesContainer.addView(type);
+            }
+        }
+
+        if (pokemon.getImagem() != null && !pokemon.getImagem().isEmpty()) {
             Picasso.get()
-                    .load(pokemon.get(position).getImg())
+                    .load(pokemon.getImagem())
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.ic_error_outline)
                     .into (holder.img);
@@ -46,7 +70,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     @Override
     public int getItemCount() {
-        return pokemon.size();
+        return pokemons.size();
     }
 
     void setClickListener(ItemClickListener itemClickListener) {
@@ -57,6 +81,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
         private ImageView img;
         private TextView number, name;
+        private LinearLayout typesContainer;
 
         PokemonViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +89,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             img = itemView.findViewById(R.id.Img);
             number = itemView.findViewById(R.id.PokemonNumber);
             name = itemView.findViewById(R.id.Name);
+            typesContainer = itemView.findViewById(R.id.TypesContainer);
         }
 
         @Override

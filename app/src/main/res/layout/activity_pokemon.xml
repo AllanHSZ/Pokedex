@@ -33,22 +33,20 @@
 
     <ImageView
         android:id="@+id/Back"
-        style="@style/Button.Icon.Huge.WhiteRipple"
+        style="@style/Button.Icon.Huge.White"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/ripple_square_white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back_long" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/Preview"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="24dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/Wave"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +62,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:hint="Imagem"
+        android:hint="Imagem (URL)"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Wave">
@@ -72,7 +70,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="textWebEmailAddress|textEmailAddress"
+            android:maxLines="1" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -90,7 +92,10 @@
             android:id="@+id/Name"
             style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="textPersonName"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -107,8 +112,10 @@
             android:id="@+id/Number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
             android:inputType="number"
-            android:maxLength="3" />
+            android:maxLength="3"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -127,6 +134,7 @@
             android:id="@+id/Type1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -146,6 +154,7 @@
             android:id="@+id/Type2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:imeOptions="actionSend"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>

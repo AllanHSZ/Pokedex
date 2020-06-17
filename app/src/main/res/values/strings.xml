@@ -1,23 +1,24 @@
 <resources>
     <string name="app_name">Pokedex</string>
 
-    <string name="nenhum">Nenhum</string>
-    <string name="normal">Normal</string>
-    <string name="fogo">Fogo</string>
-    <string name="lutador">Lutador</string>
-    <string name="agua">Água</string>
-    <string name="voador">Voador</string>
-    <string name="planta">Planta</string>
-    <string name="venenoso">Venenoso</string>
-    <string name="eletrico">Elétrico</string>
-    <string name="terreste">Terrestre</string>
-    <string name="psiquico">Psiquico</string>
-    <string name="pedra">Pedra</string>
-    <string name="gelo">Gelo</string>
-    <string name="inseto">Inseto</string>
-    <string name="dragao">Dragão</string>
-    <string name="fantasma">Fantasma</string>
-    <string name="sombrio">Sombrio</string>
-    <string name="aco">Aço</string>
-    <string name="fada">Fada</string>
+    <string name="type0">Nenhum</string>
+    <string name="type1">Normal</string>
+    <string name="type2">Fogo</string>
+    <string name="type3">Lutador</string>
+    <string name="type4">Água</string>
+    <string name="type5">Voador</string>
+    <string name="type6">Planta</string>
+    <string name="type7">Venenoso</string>
+    <string name="type8">Elétrico</string>
+    <string name="type9">Terrestre</string>
+    <string name="type10">Psiquico</string>
+    <string name="type11">Pedra</string>
+    <string name="type12">Gelo</string>
+    <string name="type13">Inseto</string>
+    <string name="type14">Dragão</string>
+    <string name="type15">Fantasma</string>
+    <string name="type16">Sombrio</string>
+    <string name="type17">Aço</string>
+    <string name="type18">Fada</string>
+
 </resources>

@@ -12,4 +12,7 @@
     <dimen name="fabCradleMargin">12dp</dimen>
     <dimen name="fabCradleVerticalOffset">8dp</dimen>
 
+
+    <dimen name="item_type">24dp</dimen>
+
 </resources>

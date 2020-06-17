@@ -26,5 +26,5 @@ public interface PokemonService {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    PokemonService create  = retrofit.create(PokemonService.class);
+    PokemonService reference  = retrofit.create(PokemonService.class);
 }
