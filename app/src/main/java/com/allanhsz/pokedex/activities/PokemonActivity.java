@@ -1,10 +1,15 @@
 package com.allanhsz.pokedex.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.webkit.ConsoleMessage;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +22,7 @@ import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.Types;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -45,6 +51,27 @@ public class PokemonActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
 
+        final CoordinatorLayout parent = findViewById(R.id.Container);
+        final ConstraintLayout content = findViewById(R.id.Content);
+
+        parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+                //Make AppBarLayout 45% of screen
+                AppBarLayout appbar = findViewById(R.id.AppBar);
+
+                ViewGroup.LayoutParams toolbarParams = appbar.getLayoutParams();
+                toolbarParams.height = (int) (parent.getHeight() * 0.45);
+                appbar.setLayoutParams(toolbarParams);
+
+                //MAke Content 55% of screen
+                content.setMinHeight((int) (parent.getHeight() * 0.55));
+
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             oper = 'I';
@@ -61,8 +88,6 @@ public class PokemonActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        solidDeco = findViewById(R.id.SolidDeco);
-        wave = findViewById(R.id.Wave);
 
         preview = findViewById(R.id.Preview);
 

@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/loading" />
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/AppBar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/windowBackground"
