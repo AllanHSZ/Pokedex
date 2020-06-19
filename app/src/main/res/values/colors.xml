@@ -7,8 +7,7 @@
     <color name="colorPrimaryDark">#a90000</color>
     <color name="colorAccent">#ff6c3d</color>
     <color name="windowBackground">#FCFBFB</color>
-    <color name="bottomAppBar">#FCFBFB </color>
-
+    <color name="bottomAppBar">#ffffff </color>
 
     <color name="whiteRipple">#75FFFFFF</color>
 
