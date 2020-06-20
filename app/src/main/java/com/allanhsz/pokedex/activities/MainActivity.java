@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
     public void getPokemons() {
         setLoading(true);
 
-        PokemonService.reference.list().enqueue(new Callback<ArrayList<Pokemon>>() {
+        PokemonService.reference.list().enqueue(new Callback<List<Pokemon>>() {
             @Override
-            public void onResponse(Call<ArrayList<Pokemon>> call, Response<ArrayList<Pokemon>> response) {
+            public void onResponse(Call<List<Pokemon>> call, Response<List<Pokemon>> response) {
                 setLoading(false);
 
                 if (response.isSuccessful()) {
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Pokemon>> call, Throwable t) {
+            public void onFailure(Call<List<Pokemon>> call, Throwable t) {
                 setLoading(false);
                 new HandlerErro(MainActivity.this, t);
             }

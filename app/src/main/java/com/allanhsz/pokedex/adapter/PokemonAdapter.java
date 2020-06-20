@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.model.Pokemon;
+import com.allanhsz.pokedex.utils.PokedexStringUtils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -58,7 +59,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
             }
         }
 
-        if (pokemon.getImagem() != null && !pokemon.getImagem().isEmpty()) {
+        if (PokedexStringUtils.isNotEmpty(pokemon.getImagem())) {
             Picasso.get()
                     .load(pokemon.getImagem())
                     .placeholder(R.drawable.loading)

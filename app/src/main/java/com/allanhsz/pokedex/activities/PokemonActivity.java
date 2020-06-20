@@ -21,6 +21,7 @@ import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.Types;
 import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.service.PokemonService;
+import com.allanhsz.pokedex.utils.PokedexStringUtils;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -61,7 +62,6 @@ public class PokemonActivity extends AppCompatActivity {
                 appbar.setLayoutParams(toolbarParams);
 
                 content.setMinHeight((int) (parent.getHeight() * 0.55));
-
             }
         });
 
@@ -96,7 +96,7 @@ public class PokemonActivity extends AppCompatActivity {
             }
 
             Editable text = image.getText();
-            if (text == null || !URLUtil.isValidUrl(text.toString())) {
+            if (PokedexStringUtils.isEmpty(text) || !URLUtil.isValidUrl(text.toString())) {
                 imageLayout.setError("Url inválida");
                 return;
             }
