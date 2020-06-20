@@ -1,29 +1,20 @@
 package com.allanhsz.pokedex.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
+import java.util.Locale;
 
 public class Pokemon implements Parcelable {
 
-    private String id ;
-    private String nome;
-    private String imagem;
-    private int numero;
-    private double peso;
-    private int[] tipo = new int[2];
-    private ArrayList<String> habilidade;
+    private String id = "";
+    private String name = "";
+    private String image = "";
+    private int number = 0;
+    private int[] types = new int[2];
 
     public Pokemon(){}
-
-    public ArrayList<String> getHabilidade() {
-        return habilidade;
-    }
-
-    public void setHabilidade(ArrayList<String> habilidade) {
-        this.habilidade = habilidade;
-    }
 
     public String getId() {
         return id;
@@ -33,65 +24,63 @@ public class Pokemon implements Parcelable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getNumero() {
-        return numero;
+    public String getImage() {
+        return image;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getImagem() {
-        return imagem;
+    public int getNumber() {
+        return number;
+    }
+    public String getFormattedNumber() {
+        return String.format(Locale.US, "%03d", number);
     }
 
-    public void setImagem(String img) {
-        this.imagem = img;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
-    public int[] getTipo() {
-        return tipo;
+    public int[] getTypes() {
+        return types;
     }
 
-    public void setTipo(int[] tipo) {
-        this.tipo = tipo;
+    public int getType(int position) {
+        if (types.length > position)
+            return types[position];
+
+        return 0;
     }
 
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
+    public void setTypes(int[] types) {
+        this.types = types;
     }
 
     protected Pokemon(Parcel in) {
-        habilidade = in.createStringArrayList();
         id = in.readString();
-        nome = in.readString();
-        numero = in.readInt();
-        imagem = in.readString();
-//        type = in.createIntArray();
-        peso = in.readDouble();
+        name = in.readString();
+        image = in.readString();
+        number = in.readInt();
+        types = in.createIntArray();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringList(habilidade);
         dest.writeString(id);
-        dest.writeString(nome);
-        dest.writeInt(numero);
-        dest.writeString(imagem);
-//        dest.writeIntArray(type);
-        dest.writeDouble(peso);
+        dest.writeString(name);
+        dest.writeString(image);
+        dest.writeInt(number);
+        dest.writeIntArray(types);
     }
 
     @Override

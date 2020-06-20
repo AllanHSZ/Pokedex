@@ -1,61 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="8dp"
-    android:padding="16dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/Img"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+    <data>
+        <import type="com.allanhsz.pokedex.Types"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        <variable
+            name="pokemon"
+            type="com.allanhsz.pokedex.model.Pokemon" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nº"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-        app:layout_constraintBottom_toTopOf="@+id/Name"
-        app:layout_constraintStart_toStartOf="@+id/Name" />
+        android:elevation="8dp"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/PokemonNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:text="000"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        <ImageView
+            android:id="@+id/Img"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadImage="@{ pokemon.image }"/>
 
-    <TextView
-        android:id="@+id/Name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
-        android:textAlignment="viewStart"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        app:layout_constraintBottom_toBottomOf="@+id/Img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Img"
-        app:layout_constraintTop_toTopOf="@+id/Img" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number_contract"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            app:layout_constraintBottom_toTopOf="@+id/Name"
+            app:layout_constraintStart_toStartOf="@+id/Name" />
 
-    <LinearLayout
-        android:id="@+id/TypesContainer"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/item_type"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="@+id/Name"
-        app:layout_constraintTop_toBottomOf="@+id/Name"></LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/PokemonNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@{ pokemon.getFormattedNumber() }"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@{ pokemon.name }"
+            android:textAlignment="viewStart"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintBottom_toBottomOf="@+id/Img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Img"
+            app:layout_constraintTop_toTopOf="@+id/Img" />
+
+        <ImageView
+            android:id="@+id/Type1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toStartOf="@+id/Name"
+            app:layout_constraintTop_toBottomOf="@+id/Name"
+            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(0))}"/>
+
+
+        <ImageView
+            android:id="@+id/Type2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintStart_toEndOf="@+id/Type1"
+            app:layout_constraintTop_toTopOf="@+id/Type1"
+            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(1))}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

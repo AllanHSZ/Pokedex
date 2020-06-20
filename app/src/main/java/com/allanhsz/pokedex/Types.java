@@ -5,6 +5,7 @@ import android.content.res.Resources;
 
 
 import com.allanhsz.pokedex.R;
+import com.allanhsz.pokedex.model.Pokemon;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,12 @@ public class Types {
         return types;
     }
 
+    public static int getTypeImage(Context context, int type){
+        if (type > 0)
+            return context.getResources().getIdentifier("ic_type"+type, "drawable", context.getPackageName());
+
+        return 0;
+    }
 //    public static ArrayList<String> getSecondTypes(Context context){
 //        ArrayList<String> secondType = getTypes(context);
 //        secondType.add(0, context.getResources().getString(R.string.nenhum));

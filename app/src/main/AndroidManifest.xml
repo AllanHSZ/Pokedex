@@ -14,7 +14,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".activities.PokemonActivity"
-            android:theme="@style/AppTheme.StatusBarPrimary"/>
+            android:theme="@style/AppTheme.StatusBarPrimary"
+            android:windowSoftInputMode="adjustNothing"/>
+
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

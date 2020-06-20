@@ -37,6 +37,7 @@
         android:id="@+id/RvPokemon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="?attr/actionBarSize"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
@@ -57,6 +58,7 @@
         android:layout_height="wrap_content"
         app:backgroundTint="@color/colorPrimary"
         app:layout_anchor="@+id/bottomAppBar"
-        app:srcCompat="@drawable/ic_add_white" />
+        app:srcCompat="@drawable/ic_add_white"
+        app:tint="@color/windowBackground" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

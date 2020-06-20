@@ -2,6 +2,7 @@ package com.allanhsz.pokedex.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
 
         loading = findViewById(R.id.Loading);
         rvPokemon = findViewById(R.id.RvPokemon);
-        rvPokemon.setLayoutManager(new GridLayoutManager(this, 2));
+        rvPokemon.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PokemonAdapter(this, pokemons);
+        adapter = new PokemonAdapter(pokemons);
         rvPokemon.setAdapter(adapter);
 
         findViewById(R.id.Add).setOnClickListener(new View.OnClickListener() {
