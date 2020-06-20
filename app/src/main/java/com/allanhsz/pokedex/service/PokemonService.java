@@ -1,4 +1,4 @@
-package com.allanhsz.pokedex;
+package com.allanhsz.pokedex.service;
 
 import com.allanhsz.pokedex.model.Pokemon;
 
@@ -13,7 +13,7 @@ import retrofit2.http.POST;
 
 public interface PokemonService {
 
-    public final String BASE_URL = "http://167.71.255.6:8080/";
+    String BASE_URL = "http://167.71.255.6:8080/";
 
     @GET("pokemons")
     Call<ArrayList<Pokemon>> list();
@@ -21,10 +21,10 @@ public interface PokemonService {
     @POST("pokemons")
     Call<Void> insert(@Body Pokemon pokemon);
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(PokemonService.BASE_URL)
+    PokemonService reference = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .build();
+            .build()
+            .create(PokemonService.class);
 
-    PokemonService reference  = retrofit.create(PokemonService.class);
 }

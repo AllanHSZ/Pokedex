@@ -3,68 +3,59 @@ package com.allanhsz.pokedex;
 import android.content.Context;
 import android.content.res.Resources;
 
-
-import com.allanhsz.pokedex.R;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Types {
 
-    public static final int NORMAL   = 1;
-    public static final int FIRE     = 2;
-    public static final int FIGHTING = 3;
-    public static final int WATER    = 4;
-    public static final int FLYING   = 5;
-    public static final int GRASS    = 6;
-    public static final int POISON   = 7;
-    public static final int ELECTRIC = 8;
-    public static final int GROUND   = 9;
-    public static final int PYSCHIC  = 10;
-    public static final int ROCK     = 11;
-    public static final int ICE      = 12;
-    public static final int BUG      = 13;
-    public static final int DRAGON   = 14;
-    public static final int GHOST    = 15;
-    public static final int DARK     = 16;
-    public static final int STELL    = 17;
-    public static final int FAIRY    = 18;
+    public static final PokemonType NORMAL = getType(1, R.string.type1);
+    public static final PokemonType FIRE = getType(2, R.string.type2);
+    public static final PokemonType FIGHTING = getType(3, R.string.type3);
+    public static final PokemonType WATER = getType(4, R.string.type4);
+    public static final PokemonType FLYING = getType(5, R.string.type5);
+    public static final PokemonType GRASS = getType(6, R.string.type6);
+    public static final PokemonType POISON = getType(7, R.string.type7);
+    public static final PokemonType ELECTRIC = getType(8, R.string.type8);
+    public static final PokemonType GROUND = getType(9, R.string.type9);
+    public static final PokemonType PYSCHIC = getType(10, R.string.type10);
+    public static final PokemonType ROCK = getType(11, R.string.type11);
+    public static final PokemonType ICE = getType(12, R.string.type12);
+    public static final PokemonType BUG = getType(13, R.string.type13);
+    public static final PokemonType DRAGON = getType(14, R.string.type14);
+    public static final PokemonType GHOST = getType(15, R.string.type15);
+    public static final PokemonType DARK = getType(16, R.string.type16);
+    public static final PokemonType STELL = getType(17, R.string.type17);
+    public static final PokemonType FAIRY = getType(18, R.string.type18);
 
+    private static final List<PokemonType> typeList = Arrays.asList(
+            NORMAL, FIRE, FIGHTING, WATER, FLYING, GRASS, POISON, ELECTRIC,
+            GROUND, PYSCHIC, ROCK, ICE, BUG, DRAGON, GHOST, DARK, STELL, FAIRY
+    );
 
-    public void getType(){
-
+    private static PokemonType getType(int number, int nameId) {
+        return new PokemonType(number, nameId);
     }
 
-//    public String getTypes(Context context, @Types int type) {
-//        return  context.getString(r);
-//    }
-
-    public static ArrayList<String> getTypes(Context context){
+    public static List<String> getTypeNames(Context context) {
         Resources resources = context.getResources();
-        ArrayList<String> types = new ArrayList<>();
-        types.add(resources.getString(R.string.type1));
-        types.add(resources.getString(R.string.type2));
-        types.add(resources.getString(R.string.type3));
-        types.add(resources.getString(R.string.type4));
-        types.add(resources.getString(R.string.type5));
-        types.add(resources.getString(R.string.type6));
-        types.add(resources.getString(R.string.type7));
-        types.add(resources.getString(R.string.type8));
-        types.add(resources.getString(R.string.type9));
-        types.add(resources.getString(R.string.type10));
-        types.add(resources.getString(R.string.type11));
-        types.add(resources.getString(R.string.type12));
-        types.add(resources.getString(R.string.type13));
-        types.add(resources.getString(R.string.type14));
-        types.add(resources.getString(R.string.type15));
-        types.add(resources.getString(R.string.type16));
-        types.add(resources.getString(R.string.type17));
-        types.add(resources.getString(R.string.type18));
+
+        List<String> types = new ArrayList<>();
+
+        for (PokemonType type : typeList) {
+            types.add(resources.getString(type.nameId));
+        }
+
         return types;
     }
 
-//    public static ArrayList<String> getSecondTypes(Context context){
-//        ArrayList<String> secondType = getTypes(context);
-//        secondType.add(0, context.getResources().getString(R.string.nenhum));
-//        return secondType;
-//    }
+    private static class PokemonType {
+        public int number;
+        public int nameId;
+
+        public PokemonType(int number, int nameId) {
+            this.number = number;
+            this.nameId = nameId;
+        }
+    }
 }

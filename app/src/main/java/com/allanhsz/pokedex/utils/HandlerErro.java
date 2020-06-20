@@ -3,6 +3,8 @@ package com.allanhsz.pokedex.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.allanhsz.pokedex.model.Pokemon;
+
 import retrofit2.Response;
 
 public class HandlerErro {
@@ -11,11 +13,11 @@ public class HandlerErro {
         show(context, t.getMessage());
     }
 
-    public HandlerErro(Context context, Response response) {
+    public HandlerErro(Context context, Response<java.util.ArrayList<Pokemon>> response) {
         show(context, response.message());
     }
 
     private void show(Context context, String mensagem) {
-        Toast.makeText(context, "Erro: "+mensagem, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Erro: " + mensagem, Toast.LENGTH_SHORT).show();
     }
 }

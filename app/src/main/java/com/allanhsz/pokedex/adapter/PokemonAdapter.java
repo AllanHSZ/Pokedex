@@ -1,7 +1,6 @@
-package com.allanhsz.pokedex;
+package com.allanhsz.pokedex.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +11,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.model.Pokemon;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
     private Context context;
-    private ArrayList<Pokemon> pokemons;
+    private List<Pokemon> pokemons;
     private ItemClickListener onClickListener;
     private int typeSize;
 
-    public PokemonAdapter(Context context, ArrayList<Pokemon> pokemons) {
+    public PokemonAdapter(Context context, List<Pokemon> pokemons) {
         this.context = context;
         this.pokemons = pokemons;
 
@@ -46,14 +46,13 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         holder.name.setText(pokemon.getNome());
 
 
-        if (pokemon.getTipo() != null){
-            for (int i=0; i < pokemon.getTipo().length; i++){
-                if(pokemon.getTipo()[i] == 0)
-                    continue;
+        if (pokemon.getTipo() != null) {
+            for (int i = 0; i < pokemon.getTipo().length; i++) {
+                if (pokemon.getTipo()[i] == 0) continue;
 
                 ImageView type = new ImageView(context);
                 type.setLayoutParams(new LinearLayout.LayoutParams(typeSize, typeSize));
-                int r = context.getResources().getIdentifier("ic_type"+pokemon.getTipo()[i], "drawable", context.getPackageName());
+                int r = context.getResources().getIdentifier("ic_type" + pokemon.getTipo()[i], "drawable", context.getPackageName());
                 type.setBackground(context.getDrawable(r));
                 holder.typesContainer.addView(type);
             }
@@ -64,7 +63,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
                     .load(pokemon.getImagem())
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.ic_error_outline)
-                    .into (holder.img);
+                    .into(holder.img);
         }
     }
 
