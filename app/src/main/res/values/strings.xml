@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Pokedex</string>
     <string name="number_contract">Nº</string>
+    <string name="required">Obrigatório</string>
+    <string name="name">Nome</string>
+    <string name="image_url">Imagem (URL)</string>
+    <string name="back_button">Botão voltar</string>
 
     <string name="type0">Nenhum</string>
     <string name="type1">Normal</string>
