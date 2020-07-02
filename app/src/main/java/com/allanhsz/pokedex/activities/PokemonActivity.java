@@ -1,28 +1,30 @@
 package com.allanhsz.pokedex.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.widget.NestedScrollView;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.allanhsz.pokedex.model.Pokemon;
+import com.allanhsz.pokedex.Components.LoadingFullScreen;
 import com.allanhsz.pokedex.PokemonService;
+import com.allanhsz.pokedex.TypeAdapter;
+import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.Types;
+import com.allanhsz.pokedex.model.Type;
 import com.allanhsz.pokedex.utils.HeightProvider;
+import com.allanhsz.pokedex.utils.Utils;
+import com.allanhsz.pokedex.utils.Validation;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -31,45 +33,207 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PokemonActivity extends AppCompatActivity implements View.OnFocusChangeListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+public class PokemonActivity extends AppCompatActivity {
+
+    private AppBarLayout appbar;
     private char oper;
     private Pokemon pokemon;
-    private ImageView back, preview;
-    private Button action;
-//    private View solidDeco, wave;
-    private TextInputLayout imageLayout;
-    private TextInputEditText name, number, image;
+    private ImageView preview;
+    private TextInputLayout imageLayout, nameLayout, numberLayout, type1Layout, type1Layou2;
+    private TextInputEditText image,  name, number;
     private AutoCompleteTextView type1, type2;
-    private ArrayList<String> allTypes;
-
+    private Button action;
+    private ArrayList<Type> allTypes;
     private boolean afterResize = false;
     private int screenHeight;
-    private float previewInitialHeight;
+    private int previewInitialHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon);
 
-        final CoordinatorLayout parent = findViewById(R.id.Container);
-        final ConstraintLayout content = findViewById(R.id.Content);
-        final AppBarLayout appbar = findViewById(R.id.AppBar);
-        final NestedScrollView scroll = findViewById(R.id.Scroll);
-
+        appbar = findViewById(R.id.AppBar);
         preview = findViewById(R.id.Preview);
 
         imageLayout = findViewById(R.id.ImageLayout);
         image = findViewById(R.id.Image);
-        image.setOnFocusChangeListener(this);
+        image.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                loadImage();
+            }
+        });
 
+        nameLayout = findViewById(R.id.NameLayout);
         name = findViewById(R.id.Name);
+        name.setFilters(new InputFilter[]{new Utils.EmojiExcludeFilter()});
+
+        numberLayout = findViewById(R.id.NumberLayout);
         number = findViewById(R.id.Number);
+
         type1 = findViewById(R.id.Type1);
+        type1Layout = findViewById(R.id.Type1Layout);
         type2 = findViewById(R.id.Type2);
 
         action = findViewById(R.id.Action);
 
+        configHeader();
+
+        Bundle extras = getIntent().getExtras();
+
+        if(extras == null) {
+            oper = 'I';
+            pokemon = new Pokemon();
+            action.setText(getString(R.string.adicionar));
+        } else {
+            oper = 'E';
+            pokemon = extras.getParcelable("pokemon");
+            action.setText(getString(R.string.salvar));
+        }
+
+        allTypes = Types.getTypes(this);
+
+        TypeAdapter typeAdapter1 = new TypeAdapter(this, allTypes);
+        type1.setAdapter(typeAdapter1);
+        type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
+                pokemon.getTypes()[0] = allTypes.get(p).getType();
+            }
+        });
+
+        final ArrayList<Type> secondTypes = new ArrayList<>(allTypes);
+        secondTypes.add(0, new Type(getString(R.string.type0), 0));
+        TypeAdapter typeAdapter2 = new TypeAdapter(this, secondTypes);
+        type2.setAdapter(typeAdapter2);
+        type2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
+                pokemon.getTypes()[1] = secondTypes.get(p).getType();
+            }
+        });
+
+
+
+
+        action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (validForm()) {
+                    final LoadingFullScreen loading = new LoadingFullScreen(PokemonActivity.this);
+                    loading.show();
+
+                    pokemon.setName(Objects.requireNonNull(name.getText()).toString());
+                    pokemon.setNumber(Integer.parseInt(Objects.requireNonNull(number.getText()).toString()));
+                    pokemon.setImage(Objects.requireNonNull(image.getText()).toString());
+
+                    if (oper == 'I') {
+                        PokemonService.reference.insert(pokemon).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (loading.isShowing())
+                                    loading.dismiss();
+
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                if (loading.isShowing())
+                                    loading.dismiss();
+                                Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+        findViewById(R.id.Back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+    }
+
+    public void clear(){
+        image.setText("");
+        name.setText("");
+        number.setText("");
+        type1.setText("");
+        type2.setText("");
+    }
+
+    public void setAppBarHeight(int height){
+        Utils.setViewHeight(appbar, height);
+        Utils.setViewHeight(preview, height);
+    }
+
+    public boolean validForm(){
+        if (Objects.requireNonNull(name.getText()).toString().trim().isEmpty()) {
+            nameLayout.setError("Preenchimento obrigatorio");
+            nameLayout.requestFocus();
+            return false;
+        } else {
+            nameLayout.setErrorEnabled(false);
+        }
+
+        if (Objects.requireNonNull(number.getText()).toString().trim().isEmpty()) {
+            numberLayout.setError("Obrigatorio");
+            numberLayout.requestFocus();
+            return false;
+        } else {
+            numberLayout.setErrorEnabled(false);
+        }
+
+        if (pokemon.getType(0) > 0) {
+            type1Layout.setErrorEnabled(false);
+        } else {
+            type1Layout.setError("Obrigatorio");
+            type1Layout.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
+
+    public void loadImage(){
+
+        if (Validation.isEmpty(image)) {
+            imageLayout.setErrorEnabled(false);
+            return;
+        }
+
+        String url = Objects.requireNonNull(image.getText()).toString().trim();
+        if (URLUtil.isValidUrl(Objects.requireNonNull(image.getText()).toString())) {
+
+            Picasso.get()
+                    .load(url)
+                    .into(preview, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {}
+
+                        @Override
+                        public void onError(Exception e) {
+                            imageLayout.setError("Url invido");
+                        }
+                    });
+
+            imageLayout.setErrorEnabled(false);
+        } else {
+            imageLayout.setError("Url invido");
+        }
+    }
+
+    public void configHeader(){
+
+        final CoordinatorLayout parent = findViewById(R.id.Container);
         final ViewGroup.LayoutParams previewParams = preview.getLayoutParams();
 
         appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -80,6 +244,7 @@ public class PokemonActivity extends AppCompatActivity implements View.OnFocusCh
             }
         });
 
+        // Change appbar height when keyboard open, avoiding keyboard hide input
         new HeightProvider(PokemonActivity.this).init().setHeightListener(new HeightProvider.HeightListener() {
             @Override
             public void onHeightChanged(int height) {
@@ -87,17 +252,14 @@ public class PokemonActivity extends AppCompatActivity implements View.OnFocusCh
                     int[] location = new int[2];
                     View view = getCurrentFocus();
                     view.getLocationOnScreen(location);
-                    if(screenHeight-height > location[1]+view.getHeight()){
-                        if(afterResize){
+                    if(screenHeight-height > location[1]+((View)view.getParent()).getHeight()){
+                        if(afterResize)
                             afterResize = false;
-                        } else {
-                            Toast.makeText(PokemonActivity.this, " NOT HIDE ", Toast.LENGTH_SHORT).show();
-                            setViewHeight(appbar, (int) previewInitialHeight);
-                        }
+                        else
+                            setAppBarHeight(previewInitialHeight);
                     } else{
                         afterResize = true;
-                        Toast.makeText(PokemonActivity.this, " HIDE ", Toast.LENGTH_SHORT).show();
-                        setViewHeight(appbar, (int) previewInitialHeight-(location[1]+view.getHeight()-(screenHeight-height))-1);
+                        setAppBarHeight((int) (previewInitialHeight-(location[1]+view.getHeight()*1.4-(screenHeight-height))-1));
                     }
                 }
 
@@ -108,136 +270,11 @@ public class PokemonActivity extends AppCompatActivity implements View.OnFocusCh
             @Override
             public void onGlobalLayout() {
                 parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-
                 screenHeight = parent.getHeight();
-                previewInitialHeight = screenHeight * 0.45f;
-
-                previewParams.height = (int) (previewInitialHeight);
-                preview.setLayoutParams(previewParams);
-
+                previewInitialHeight = (int) (screenHeight * 0.45f);
                 //Make AppBarLayout 45% of screen
-                setViewHeight(appbar, (int) previewInitialHeight);
+                setAppBarHeight(previewInitialHeight);
             }
         });
-
-        Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            oper = 'I';
-            pokemon = new Pokemon();
-        } else {
-            oper = 'E';
-            pokemon = extras.getParcelable("pokemon");
-        }
-
-        back = findViewById(R.id.Back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-
-        allTypes = Types.getTypes(this);
-
-//        final ArrayAdapter<String> adapterType1 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, allTypes);
-//        type1.setAdapter(adapterType1);
-//        type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-//                pokemon.getTipo()[0] = p;
-//            }
-//        });
-//
-//        allTypes.add(0, getString(R.string.type0));
-//        ArrayAdapter<String> adapterType2 = new ArrayAdapter<>(this, R.layout.dropdown_menu_popup_item, allTypes);
-//        type2.setAdapter(adapterType2);
-//        type2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-//                    pokemon.getTipo()[1] = p;
-//            }
-//        });
-//
-//        action.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                final ProgressDialog dialog = new ProgressDialog(PokemonActivity.this);
-//                dialog.setMessage("Carregando...");
-//                dialog.setCancelable(false);
-//                dialog.show();
-//
-//                pokemon.setNome(Objects.requireNonNull(name.getText()).toString());
-//                pokemon.setNumero(Integer.parseInt(Objects.requireNonNull(number.getText()).toString()));
-//
-//                pokemon.setImagem(pokemon.getImagem());
-//
-//                PokemonService.reference.insert(pokemon).enqueue(new Callback<Void>() {
-//                    @Override
-//                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                        if (dialog.isShowing())
-//                            dialog.dismiss();
-//                        Toast.makeText(getBaseContext(), "Pokemon inserido com sucesso", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Void> call, Throwable t) {
-//                        if (dialog.isShowing())
-//                            dialog.dismiss();
-//                        Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            }
-//        });
-    }
-
-    public void setViewHeight(View view, int height){
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.height = height;
-        view.setLayoutParams(params);
-    }
-
-    public void loadPReview(String url){
-        Picasso.get()
-                .load(url)
-                .into(preview, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-                        imageLayout.setError("Url invido");
-                    }
-                });
-    }
-
-    @Override
-    public void onFocusChange(View view, boolean hasFocus) {
-        if(view instanceof TextInputEditText){
-            if (hasFocus) {
-                if(view.getParent() instanceof TextInputLayout)
-                    ((TextInputLayout)view.getParent()).setErrorEnabled(false);
-            } else {
-                if (!isEmpty(view)){
-                    if (view.getId() == R.id.Image) {
-                        String url = Objects.requireNonNull(image.getText()).toString();
-                        if (URLUtil.isValidUrl(Objects.requireNonNull(image.getText()).toString())) {
-                            loadPReview(url);
-                            ((TextInputLayout)view.getParent()).setErrorEnabled(false);
-                        } else {
-                            imageLayout.setError("Url invido");
-                        }
-                    } else {
-                        imageLayout.setError("Preenchimento obrigatorio");
-                    }
-                }
-            }
-        }
-    }
-
-    public boolean isEmpty(View view){
-        TextInputEditText et = ((TextInputEditText)view);
-        return et.getText() == null || et.getText().toString().trim().isEmpty();
     }
 }

@@ -6,6 +6,7 @@ import android.content.res.Resources;
 
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.model.Pokemon;
+import com.allanhsz.pokedex.model.Type;
 
 import java.util.ArrayList;
 
@@ -39,27 +40,27 @@ public class Types {
 //        return  context.getString(r);
 //    }
 
-    public static ArrayList<String> getTypes(Context context){
+    public static ArrayList<Type> getTypes(Context context){
         Resources resources = context.getResources();
-        ArrayList<String> types = new ArrayList<>();
-        types.add(resources.getString(R.string.type1));
-        types.add(resources.getString(R.string.type2));
-        types.add(resources.getString(R.string.type3));
-        types.add(resources.getString(R.string.type4));
-        types.add(resources.getString(R.string.type5));
-        types.add(resources.getString(R.string.type6));
-        types.add(resources.getString(R.string.type7));
-        types.add(resources.getString(R.string.type8));
-        types.add(resources.getString(R.string.type9));
-        types.add(resources.getString(R.string.type10));
-        types.add(resources.getString(R.string.type11));
-        types.add(resources.getString(R.string.type12));
-        types.add(resources.getString(R.string.type13));
-        types.add(resources.getString(R.string.type14));
-        types.add(resources.getString(R.string.type15));
-        types.add(resources.getString(R.string.type16));
-        types.add(resources.getString(R.string.type17));
-        types.add(resources.getString(R.string.type18));
+        ArrayList<Type> types = new ArrayList<>();
+        types.add(new Type(resources.getString(R.string.type1), 1));
+        types.add(new Type(resources.getString(R.string.type2), 2));
+        types.add(new Type(resources.getString(R.string.type3), 3));
+        types.add(new Type(resources.getString(R.string.type4), 4));
+        types.add(new Type(resources.getString(R.string.type5), 5));
+        types.add(new Type(resources.getString(R.string.type6), 6));
+        types.add(new Type(resources.getString(R.string.type7), 7));
+        types.add(new Type(resources.getString(R.string.type8), 8));
+        types.add(new Type(resources.getString(R.string.type9), 9));
+        types.add(new Type(resources.getString(R.string.type10), 10));
+        types.add(new Type(resources.getString(R.string.type11), 11));
+        types.add(new Type(resources.getString(R.string.type12), 12));
+        types.add(new Type(resources.getString(R.string.type13), 13));
+        types.add(new Type(resources.getString(R.string.type14), 14));
+        types.add(new Type(resources.getString(R.string.type15), 15));
+        types.add(new Type(resources.getString(R.string.type16), 16));
+        types.add(new Type(resources.getString(R.string.type17), 17));
+        types.add(new Type(resources.getString(R.string.type18), 18));
         return types;
     }
 
