@@ -1,0 +1,3 @@
+Pokédex
+
+Aplicado Android Nativo
