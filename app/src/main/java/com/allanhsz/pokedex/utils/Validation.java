@@ -1,7 +1,5 @@
 package com.allanhsz.pokedex.utils;
 
-import android.view.View;
-
 import com.google.android.material.textfield.TextInputEditText;
 
 public class Validation {

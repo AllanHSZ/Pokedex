@@ -66,7 +66,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/Scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         app:layout_anchorGravity="bottom"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -86,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:hint="@string/input_image"
+                android:paddingBottom="8dp"
                 app:errorEnabled="true"
                 app:helperText=" "
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,10 +110,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/input_name"
+                android:paddingBottom="8dp"
                 app:errorEnabled="true"
                 app:helperText=" "
                 app:layout_constraintEnd_toStartOf="@+id/NumberLayout"
-                app:layout_constraintStart_toStartOf="@+id/ImageLayout"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ImageLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -131,46 +133,26 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/input_number"
+                android:paddingBottom="8dp"
                 app:errorEnabled="true"
                 app:helperText=" "
-                app:layout_constraintBottom_toBottomOf="@+id/NameLayout"
-                app:layout_constraintEnd_toEndOf="@+id/ImageLayout"
-                app:layout_constraintTop_toTopOf="@+id/NameLayout">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ImageLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/Number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="number"
                     android:maxLength="3"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/Type2Layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:hint="@string/tipo_secundario"
-                app:layout_constraintEnd_toEndOf="@+id/NumberLayout"
-                app:layout_constraintStart_toEndOf="@+id/AuxView"
-                app:layout_constraintTop_toTopOf="@+id/Type1Layout">
-
-                <AutoCompleteTextView
-                    android:id="@+id/Type2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionSend"
-                    android:inputType="none" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <View
                 android:id="@+id/AuxView"
-                android:layout_width="1dp"
-                android:layout_height="1dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -185,7 +167,7 @@
                 android:layout_marginEnd="8dp"
                 android:hint="@string/input_tipo_primario"
                 app:layout_constraintEnd_toStartOf="@+id/AuxView"
-                app:layout_constraintStart_toStartOf="@+id/NameLayout"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/NameLayout">
 
                 <AutoCompleteTextView
@@ -197,6 +179,25 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/Type2Layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:hint="@string/tipo_secundario"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/AuxView"
+                app:layout_constraintTop_toTopOf="@+id/Type1Layout">
+
+                <AutoCompleteTextView
+                    android:id="@+id/Type2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <Button
                 android:id="@+id/Action"
                 android:layout_width="0dp"
@@ -204,9 +205,7 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="32dp"
                 android:enabled="true"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/Type2Layout"
                 app:layout_constraintStart_toStartOf="@+id/Type1Layout"
                 app:layout_constraintTop_toBottomOf="@+id/Type1Layout" />
@@ -214,5 +213,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

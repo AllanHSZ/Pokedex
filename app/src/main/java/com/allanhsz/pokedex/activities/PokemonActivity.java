@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -22,7 +21,7 @@ import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.Types;
 import com.allanhsz.pokedex.model.Type;
-import com.allanhsz.pokedex.utils.HeightProvider;
+import com.allanhsz.pokedex.utils.LayoutFocusControl;
 import com.allanhsz.pokedex.utils.Utils;
 import com.allanhsz.pokedex.utils.Validation;
 import com.google.android.material.appbar.AppBarLayout;
@@ -39,18 +38,20 @@ import retrofit2.Response;
 
 public class PokemonActivity extends AppCompatActivity {
 
-    private AppBarLayout appbar;
     private char oper;
     private Pokemon pokemon;
     private ImageView preview;
-    private TextInputLayout imageLayout, nameLayout, numberLayout, type1Layout, type1Layou2;
+    private AppBarLayout appbar;
+//    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private TextInputLayout imageLayout, nameLayout, numberLayout, type1Layout;
     private TextInputEditText image,  name, number;
     private AutoCompleteTextView type1, type2;
-    private Button action;
     private ArrayList<Type> allTypes;
-    private boolean afterResize = false;
+
     private int screenHeight;
     private int previewInitialHeight;
+
+    private LayoutFocusControl layoutFocusControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,14 @@ public class PokemonActivity extends AppCompatActivity {
 
         nameLayout = findViewById(R.id.NameLayout);
         name = findViewById(R.id.Name);
-        name.setFilters(new InputFilter[]{new Utils.EmojiExcludeFilter()});
+        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                TextInputEditText text = (TextInputEditText) layoutFocusControl.getLastFlocus();
+                if ( hasFocus && layoutFocusControl.getOcultArea() > 0 && text.getId() == image.getId())
+                    layoutFocusControl.focusIn(name, layoutFocusControl.getOcultArea());
+            }
+        });
 
         numberLayout = findViewById(R.id.NumberLayout);
         number = findViewById(R.id.Number);
@@ -80,7 +88,7 @@ public class PokemonActivity extends AppCompatActivity {
         type1Layout = findViewById(R.id.Type1Layout);
         type2 = findViewById(R.id.Type2);
 
-        action = findViewById(R.id.Action);
+        Button action = findViewById(R.id.Action);
 
         configHeader();
 
@@ -117,9 +125,6 @@ public class PokemonActivity extends AppCompatActivity {
                 pokemon.getTypes()[1] = secondTypes.get(p).getType();
             }
         });
-
-
-
 
         action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,11 +173,6 @@ public class PokemonActivity extends AppCompatActivity {
         number.setText("");
         type1.setText("");
         type2.setText("");
-    }
-
-    public void setAppBarHeight(int height){
-        Utils.setViewHeight(appbar, height);
-        Utils.setViewHeight(preview, height);
     }
 
     public boolean validForm(){
@@ -244,37 +244,18 @@ public class PokemonActivity extends AppCompatActivity {
             }
         });
 
-        // Change appbar height when keyboard open, avoiding keyboard hide input
-        new HeightProvider(PokemonActivity.this).init().setHeightListener(new HeightProvider.HeightListener() {
-            @Override
-            public void onHeightChanged(int height) {
-                if ( getCurrentFocus() instanceof  TextInputEditText || getCurrentFocus() instanceof  TextInputLayout){
-                    int[] location = new int[2];
-                    View view = getCurrentFocus();
-                    view.getLocationOnScreen(location);
-                    if(screenHeight-height > location[1]+((View)view.getParent()).getHeight()){
-                        if(afterResize)
-                            afterResize = false;
-                        else
-                            setAppBarHeight(previewInitialHeight);
-                    } else{
-                        afterResize = true;
-                        setAppBarHeight((int) (previewInitialHeight-(location[1]+view.getHeight()*1.4-(screenHeight-height))-1));
-                    }
-                }
-
-            }
-        });
-
         parent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
                 screenHeight = parent.getHeight();
                 previewInitialHeight = (int) (screenHeight * 0.45f);
-                //Make AppBarLayout 45% of screen
-                setAppBarHeight(previewInitialHeight);
+                Utils.setViewHeight(appbar, previewInitialHeight);
+
+                layoutFocusControl = new LayoutFocusControl(PokemonActivity.this, appbar, screenHeight, previewInitialHeight);
             }
         });
     }
+
 }
