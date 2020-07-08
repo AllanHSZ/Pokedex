@@ -10,4 +10,5 @@ public class Utils {
         params.height = height;
         view.setLayoutParams(params);
     }
+
 }

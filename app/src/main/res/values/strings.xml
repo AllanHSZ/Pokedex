@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pokedex</string>
+    <string name="app_name">Pokédex</string>
     <string name="number_contract">Nº</string>
     <string name="required">Obrigatório</string>
     <string name="name">Nome</string>
@@ -11,6 +11,8 @@
     <string name="salvar">salvar</string>
     <string name="input_tipo_primario">Tipo primário *</string>
     <string name="tipo_secundario">Tipo secundário</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Deletar</string>
 
     <string name="type0">Nenhum</string>
     <string name="type1">Normal</string>

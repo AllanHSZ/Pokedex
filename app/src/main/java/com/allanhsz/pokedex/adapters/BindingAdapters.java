@@ -1,24 +1,25 @@
-package com.allanhsz.pokedex;
+package com.allanhsz.pokedex.adapters;
 
-import android.content.Context;
-import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 
-import androidx.annotation.DrawableRes;
 import androidx.databinding.BindingAdapter;
 
+import com.allanhsz.pokedex.R;
 import com.squareup.picasso.Picasso;
 
 public class BindingAdapters {
 
     @BindingAdapter( "app:loadImage" )
-    public static void loadImage (ImageView ImageView, String url) {
-        if (!url.isEmpty()) {
+    public static void loadImage (ImageView imageView, String url) {
+        if (!url.isEmpty() && URLUtil.isValidUrl(url)) {
             Picasso.get()
                     .load(url)
                     .placeholder(R.drawable.loading)
                     .error(R.drawable.ic_error_outline)
-                    .into(ImageView);
+                    .into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.ic_question);
         }
     }
 
@@ -27,4 +28,5 @@ public class BindingAdapters {
         if (resource != 0)
             ImageView.setImageResource(resource);
     }
+
 }

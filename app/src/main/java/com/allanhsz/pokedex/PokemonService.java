@@ -10,6 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface PokemonService {
 
@@ -20,6 +22,9 @@ public interface PokemonService {
 
     @POST("pokemons")
     Call<Void> insert(@Body Pokemon pokemon);
+
+    @PUT("pokemons/{id}")
+    Call<Void> update(@Path("id") String id, @Body Pokemon pokemon);
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(PokemonService.BASE_URL)

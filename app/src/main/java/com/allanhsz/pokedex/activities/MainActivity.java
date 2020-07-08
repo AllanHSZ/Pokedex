@@ -1,7 +1,6 @@
 package com.allanhsz.pokedex.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,7 +11,7 @@ import android.widget.ImageView;
 
 import com.allanhsz.pokedex.utils.HandlerErro;
 import com.allanhsz.pokedex.model.Pokemon;
-import com.allanhsz.pokedex.PokemonAdapter;
+import com.allanhsz.pokedex.adapters.PokemonAdapter;
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
 
@@ -22,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements PokemonAdapter.ItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Pokemon> pokemons = new ArrayList<>();
     private ImageView loading;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
         rvPokemon = findViewById(R.id.RvPokemon);
         rvPokemon.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new PokemonAdapter(pokemons);
+        adapter = new PokemonAdapter(this, pokemons);
         rvPokemon.setAdapter(adapter);
 
         findViewById(R.id.Add).setOnClickListener(new View.OnClickListener() {
@@ -53,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
     @Override
     protected void onStart() {
         super.onStart();
-
         getPokemons();
     }
 
@@ -85,8 +83,4 @@ public class MainActivity extends AppCompatActivity implements PokemonAdapter.It
         loading.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-
-    }
 }

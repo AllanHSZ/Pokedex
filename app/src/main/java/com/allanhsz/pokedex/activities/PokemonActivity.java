@@ -3,10 +3,13 @@ package com.allanhsz.pokedex.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -16,11 +19,10 @@ import android.widget.Toast;
 
 import com.allanhsz.pokedex.Components.LoadingFullScreen;
 import com.allanhsz.pokedex.PokemonService;
-import com.allanhsz.pokedex.TypeAdapter;
+import com.allanhsz.pokedex.adapters.TypeAdapter;
 import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.R;
-import com.allanhsz.pokedex.Types;
-import com.allanhsz.pokedex.model.Type;
+import com.allanhsz.pokedex.utils.Types;
 import com.allanhsz.pokedex.utils.LayoutFocusControl;
 import com.allanhsz.pokedex.utils.Utils;
 import com.allanhsz.pokedex.utils.Validation;
@@ -29,7 +31,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -42,11 +43,11 @@ public class PokemonActivity extends AppCompatActivity {
     private Pokemon pokemon;
     private ImageView preview;
     private AppBarLayout appbar;
-//    private CollapsingToolbarLayout collapsingToolbarLayout;
     private TextInputLayout imageLayout, nameLayout, numberLayout, type1Layout;
     private TextInputEditText image,  name, number;
     private AutoCompleteTextView type1, type2;
-    private ArrayList<Type> allTypes;
+    private SparseArray<String> allTypes;
+    private Button action;
 
     private int screenHeight;
     private int previewInitialHeight;
@@ -81,50 +82,55 @@ public class PokemonActivity extends AppCompatActivity {
             }
         });
 
+
         numberLayout = findViewById(R.id.NumberLayout);
         number = findViewById(R.id.Number);
 
         type1 = findViewById(R.id.Type1);
         type1Layout = findViewById(R.id.Type1Layout);
         type2 = findViewById(R.id.Type2);
-
-        Button action = findViewById(R.id.Action);
+        action = findViewById(R.id.Action);
 
         configHeader();
 
-        Bundle extras = getIntent().getExtras();
+        allTypes = Types.getHashType(this);
 
-        if(extras == null) {
-            oper = 'I';
-            pokemon = new Pokemon();
-            action.setText(getString(R.string.adicionar));
-        } else {
-            oper = 'E';
-            pokemon = extras.getParcelable("pokemon");
-            action.setText(getString(R.string.salvar));
-        }
-
-        allTypes = Types.getTypes(this);
-
-        TypeAdapter typeAdapter1 = new TypeAdapter(this, allTypes);
-        type1.setAdapter(typeAdapter1);
-        type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-                pokemon.getTypes()[0] = allTypes.get(p).getType();
-            }
-        });
-
-        final ArrayList<Type> secondTypes = new ArrayList<>(allTypes);
-        secondTypes.add(0, new Type(getString(R.string.type0), 0));
-        TypeAdapter typeAdapter2 = new TypeAdapter(this, secondTypes);
+        TypeAdapter typeAdapter2 = new TypeAdapter(this, allTypes);
         type2.setAdapter(typeAdapter2);
         type2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-                pokemon.getTypes()[1] = secondTypes.get(p).getType();
+                pokemon.getTypes()[1] = allTypes.keyAt(p);
             }
         });
+
+        View.OnFocusChangeListener closeOnFocus = new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (hasFocus){
+                    InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (manager != null) {
+                        appbar.setExpanded(true, true);
+                        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                }
+            }
+        };;
+        type1.setOnFocusChangeListener(closeOnFocus);
+        type2.setOnFocusChangeListener(closeOnFocus);
+
+        final SparseArray<String> types = allTypes.clone();
+        types.remove(Types.NENHUM);
+        TypeAdapter typeAdapter1 = new TypeAdapter(this, types);
+        type1.setAdapter(typeAdapter1);
+        type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
+                pokemon.getTypes()[0] = types.keyAt(p);
+            }
+        });
+
+        setOper();
 
         action.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,24 +143,23 @@ public class PokemonActivity extends AppCompatActivity {
                     pokemon.setNumber(Integer.parseInt(Objects.requireNonNull(number.getText()).toString()));
                     pokemon.setImage(Objects.requireNonNull(image.getText()).toString());
 
-                    if (oper == 'I') {
-                        PokemonService.reference.insert(pokemon).enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (loading.isShowing())
-                                    loading.dismiss();
+                    (oper == 'I' ? PokemonService.reference.insert(pokemon) : PokemonService.reference.update(pokemon.getId(),pokemon)).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (loading.isShowing())
+                                loading.dismiss();
 
-                                finish();
-                            }
+                            finish();
+                        }
 
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                if (loading.isShowing())
-                                    loading.dismiss();
-                                Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            if (loading.isShowing())
+                                loading.dismiss();
+
+                            Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
             }
@@ -173,6 +178,27 @@ public class PokemonActivity extends AppCompatActivity {
         number.setText("");
         type1.setText("");
         type2.setText("");
+    }
+
+    public void setOper(){
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            oper = 'I';
+            pokemon = new Pokemon();
+            action.setText(getString(R.string.adicionar));
+        } else {
+            oper = 'E';
+            pokemon = extras.getParcelable("pokemon");
+            action.setText(getString(R.string.salvar));
+
+            image.setText(pokemon.getImage());
+            name.setText(pokemon.getName());
+            number.setText(String.valueOf(pokemon.getNumber()));
+            number.setEnabled(false);
+            type1.setText(allTypes.get(pokemon.getType(0)), false);
+            type2.setText(allTypes.get(pokemon.getType(1)), false);
+            loadImage();
+        }
     }
 
     public boolean validForm(){
@@ -206,6 +232,7 @@ public class PokemonActivity extends AppCompatActivity {
     public void loadImage(){
 
         if (Validation.isEmpty(image)) {
+            preview.setImageResource(R.drawable.ic_question);
             imageLayout.setErrorEnabled(false);
             return;
         }
@@ -222,12 +249,14 @@ public class PokemonActivity extends AppCompatActivity {
                         @Override
                         public void onError(Exception e) {
                             imageLayout.setError("Url invido");
+                            preview.setImageResource(R.drawable.ic_question);
                         }
                     });
 
             imageLayout.setErrorEnabled(false);
         } else {
             imageLayout.setError("Url invido");
+            preview.setImageResource(R.drawable.ic_question);
         }
     }
 

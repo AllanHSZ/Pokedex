@@ -6,30 +6,36 @@
 
     <color name="colorPrimary">#E3350D</color>
     <color name="colorPrimaryDark">#a90000</color>
-    <color name="colorAccent">#ff6c3d</color>
+    <color name="colorAccent">#FF6C3D</color>
     <color name="windowBackground">@color/lightGray</color>
     <color name="bottomAppBar">#ffffff </color>
 
-    <color name="whiteRipple">#75FFFFFF</color>
+    <color name="text_white">#DEFFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="item_decor1">#12FFFFFF</color>
+    <color name="item_decor2">#0AFFFFFF</color>
+    <color name="item_black_overlay">#1A000000</color>
 
-    <color name="nenhum">#EEEEEE</color>
-    <color name="inseto">#92BC2C</color>
-    <color name="sombrio">#595761</color>
-    <color name="dragao">#0C69C8</color>
-    <color name="eletrico">#F2D94E</color>
-    <color name="fada">#EE90E6</color>
-    <color name="lutador">#D3425F</color>
-    <color name="fogo">#FBA54C</color>
-    <color name="voador">#A1BBEC</color>
-    <color name="fantasma">#5F6DBC</color>
-    <color name="planta">#5FBD58</color>
-    <color name="terreste">#DA7C4D</color>
-    <color name="gelo">#75D0C1</color>
-    <color name="normal">#A0A29F</color>
-    <color name="venenoso">#B763CF</color>
-    <color name="psiquico">#FA8581</color>
-    <color name="pedra">#C9BB8A</color>
-    <color name="aco">#5695A3</color>
-    <color name="agua">#539DDF</color>
+    <color name="whiteRipple">#4DFFFFFF</color>
+
+    <color name="type0">#EEEEEE</color>
+    <color name="type1">#A0A29F</color>
+    <color name="type2">#FBA54C</color>
+    <color name="type3">#D3425F</color>
+    <color name="type4">#539DDF</color>
+    <color name="type5">#A1BBEC</color>
+    <color name="type6">#5FBD58</color>
+    <color name="type7">#B763CF</color>
+    <color name="type8">#F2D94E</color>
+    <color name="type9">#DA7C4D</color>
+    <color name="type10">#FA8581</color>
+    <color name="type11">#C9BB8A</color>
+    <color name="type12">#75D0C1</color>
+    <color name="type13">#92BC2C</color>
+    <color name="type14">#0C69C8</color>
+    <color name="type15">#5F6DBC</color>
+    <color name="type16">#595761</color>
+    <color name="type17">#5695A3</color>
+    <color name="type18">#EE90E6</color>
 
 </resources>

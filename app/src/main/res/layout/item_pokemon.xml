@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.allanhsz.pokedex.Types"/>
+        <import type="com.allanhsz.pokedex.utils.Types"/>
 
         <variable
             name="pokemon"
@@ -15,18 +14,80 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="8dp"
-        android:padding="16dp">
+        android:layout_marginStart="@dimen/spaceLG"
+        android:layout_marginTop="@dimen/spaceMD"
+        android:layout_marginEnd="@dimen/spaceLG"
+        android:layout_marginBottom="@dimen/spaceMD"
+        android:stateListAnimator="@animator/item_state"
+        android:background="@drawable/shape_rounded_8dp"
+        android:backgroundTint="@{ Types.getTypeColor(context, pokemon.getType(0))}"
+        android:elevation="@dimen/item_elevation">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_rounded_8dp"
+            android:backgroundTint="@color/item_black_overlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/ripple"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ripple_square_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/item_decor_big"
+            android:layout_height="@dimen/item_decor_big"
+            android:tint="@color/item_decor1"
+            android:tintMode="src_in"
+            android:contentDescription="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.95"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15"
+            app:srcCompat="@drawable/decoration_squares" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/spaceLG"
+            android:layout_marginEnd="@dimen/spaceXL"
+            android:contentDescription="@null"
+            android:tint="@color/item_decor2"
+            android:tintMode="src_in"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/Img"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/decoration_squares" />
 
         <ImageView
             android:id="@+id/Img"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            android:layout_width="@dimen/item_image"
+            android:layout_height="@dimen/item_image"
+            android:layout_marginStart="@dimen/spaceLG"
+            android:layout_marginTop="@dimen/spaceLG"
+            android:layout_marginBottom="@dimen/spaceLG"
+            android:background="@drawable/shape_rounded_8dp"
+            android:backgroundTint="@color/item_decor1"
             android:contentDescription="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:loadImage="@{ pokemon.image }"/>
+            app:loadImage="@{ pokemon.image }" />
 
         <TextView
             android:id="@+id/textView"
@@ -34,6 +95,7 @@
             android:layout_height="wrap_content"
             android:text="@string/number_contract"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textColor="@color/text_white"
             app:layout_constraintBottom_toTopOf="@+id/Name"
             app:layout_constraintStart_toStartOf="@+id/Name" />
 
@@ -41,9 +103,9 @@
             android:id="@+id/PokemonNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:text="@{ pokemon.getFormattedNumber() }"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:textColor="@color/text_white"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="@+id/textView" />
@@ -52,10 +114,13 @@
             android:id="@+id/Name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/spaceLG"
+            android:layout_marginEnd="@dimen/spaceLG"
             android:text="@{ pokemon.name }"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/text_white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/Img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/Img"
@@ -63,20 +128,22 @@
 
         <ImageView
             android:id="@+id/Type1"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/item_type"
+            android:layout_height="@dimen/item_type"
+            android:elevation="8dp"
             app:layout_constraintStart_toStartOf="@+id/Name"
             app:layout_constraintTop_toBottomOf="@+id/Name"
-            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(0))}"/>
-
+            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(0))}" />
 
         <ImageView
             android:id="@+id/Type2"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/item_type"
+            android:layout_height="@dimen/item_type"
+            android:layout_marginStart="@dimen/spaceSM"
+            android:elevation="8dp"
             app:layout_constraintStart_toEndOf="@+id/Type1"
             app:layout_constraintTop_toTopOf="@+id/Type1"
-            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(1))}"/>
+            app:srcVector="@{ Types.getTypeImage(context, pokemon.getType(1))}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,11 @@ package com.allanhsz.pokedex.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.webkit.URLUtil;
+import android.widget.ImageView;
+
+import com.allanhsz.pokedex.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 

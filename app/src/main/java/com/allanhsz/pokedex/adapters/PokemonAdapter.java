@@ -1,6 +1,7 @@
-package com.allanhsz.pokedex;
+package com.allanhsz.pokedex.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.allanhsz.pokedex.activities.PokemonActivity;
 import com.allanhsz.pokedex.databinding.ItemPokemonBinding;
 import com.allanhsz.pokedex.model.Pokemon;
 
@@ -15,10 +17,11 @@ import java.util.ArrayList;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
+    private Context context;
     private ArrayList<Pokemon> pokemons;
-    private ItemClickListener onClickListener;
 
-    public PokemonAdapter(ArrayList<Pokemon> pokemons) {
+    public PokemonAdapter(Context context, ArrayList<Pokemon> pokemons) {
+        this.context = context;
         this.pokemons = pokemons;
     }
 
@@ -40,10 +43,6 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
         return pokemons.size();
     }
 
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.onClickListener = itemClickListener;
-    }
-
     public class PokemonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ItemPokemonBinding itemPokemonBinding;
@@ -56,11 +55,9 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
         @Override
         public void onClick(View view) {
-            if (onClickListener != null) onClickListener.onItemClick(view, getAdapterPosition());
+            context.startActivity(new Intent(context, PokemonActivity.class).putExtra("pokemon", itemPokemonBinding.getPokemon()));
         }
+
     }
 
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
 }
