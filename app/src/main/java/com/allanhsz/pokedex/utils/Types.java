@@ -1,16 +1,12 @@
 package com.allanhsz.pokedex.utils;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.util.SparseArray;
 
-
 import com.allanhsz.pokedex.R;
-import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.model.Type;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Types {
 
