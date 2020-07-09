@@ -13,14 +13,14 @@ import com.allanhsz.pokedex.activities.PokemonActivity;
 import com.allanhsz.pokedex.databinding.ItemPokemonBinding;
 import com.allanhsz.pokedex.model.Pokemon;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonViewHolder> {
 
-    private Context context;
-    private ArrayList<Pokemon> pokemons;
+    private final Context context;
+    private final List<Pokemon> pokemons;
 
-    public PokemonAdapter(Context context, ArrayList<Pokemon> pokemons) {
+    public PokemonAdapter(Context context, List<Pokemon> pokemons) {
         this.context = context;
         this.pokemons = pokemons;
     }
@@ -45,7 +45,7 @@ public class PokemonAdapter extends RecyclerView.Adapter<PokemonAdapter.PokemonV
 
     public class PokemonViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ItemPokemonBinding itemPokemonBinding;
+        private final ItemPokemonBinding itemPokemonBinding;
 
         PokemonViewHolder(ItemPokemonBinding binding) {
             super(binding.getRoot());

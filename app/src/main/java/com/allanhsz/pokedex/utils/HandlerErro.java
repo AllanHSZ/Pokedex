@@ -11,11 +11,11 @@ public class HandlerErro {
         show(context, t.getMessage());
     }
 
-    public HandlerErro(Context context, Response response) {
+    public HandlerErro(Context context, Response<?> response) {
         show(context, response.message());
     }
 
     private void show(Context context, String mensagem) {
-        Toast.makeText(context, "Erro: "+mensagem, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Erro: " + mensagem, Toast.LENGTH_SHORT).show();
     }
 }

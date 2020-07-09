@@ -1,5 +1,7 @@
 package com.allanhsz.pokedex.model;
 
+import com.allanhsz.pokedex.utils.StringUtils;
+
 public class Type {
 
     private String name;
@@ -28,6 +30,6 @@ public class Type {
 
     @Override
     public String toString() {
-        return name;
+        return StringUtils.valueOrEmpty(name);
     }
 }

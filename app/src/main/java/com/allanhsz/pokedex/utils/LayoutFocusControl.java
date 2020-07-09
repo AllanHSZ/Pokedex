@@ -12,7 +12,6 @@ import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
@@ -23,19 +22,19 @@ import com.google.android.material.textfield.TextInputEditText;
 public class LayoutFocusControl extends PopupWindow implements ViewTreeObserver.OnGlobalLayoutListener {
 
     private int ocultArea;
-    private int screenHeight;
-    private Activity activity;
+    private final int screenHeight;
+    private final Activity activity;
 
     private TextInputEditText lastFocus;
 
-    private AppBarLayout appbar;
-    private AppBarLayout.Behavior behavior;
-    private int appbarInitialHeight;
+    private final AppBarLayout appbar;
+    private final AppBarLayout.Behavior behavior;
+    private final int appbarInitialHeight;
 
-    private View rootView;
+    private final View rootView;
     private int heightMax; // Record the maximum height of the pop content area
 
-    public LayoutFocusControl(final Activity activity, AppBarLayout appbar, int screenHeight, int appbarInitialHeight){
+    public LayoutFocusControl(final Activity activity, AppBarLayout appbar, int screenHeight, int appbarInitialHeight) {
         super(activity);
         this.appbar = appbar;
         this.activity = activity;
@@ -80,30 +79,28 @@ public class LayoutFocusControl extends PopupWindow implements ViewTreeObserver.
     }
 
 
-    public void focusIn(View view, int ocultArea){
+    public void focusIn(View view, int ocultArea) {
         this.ocultArea = ocultArea;
 
-        if (view instanceof TextInputEditText){
-            lastFocus = (TextInputEditText) view;
-            view = ((View)view.getParent().getParent());
-        } else {
-            return;
-        }
+        if (!(view instanceof TextInputEditText)) return;
+
+        lastFocus = (TextInputEditText) view;
+        view = ((View) view.getParent().getParent());
 
         int[] l = new int[2];
 //        view.getLocationOnScreen(l);
 
         view.getLocationInWindow(l);
 
-        int y = (int) (l[1]+view.getHeight()/2+activity.getResources().getDimension(R.dimen.spaceLG));
-        int visibleArea = screenHeight-ocultArea;
+        int y = (int) (l[1] + view.getHeight() / 2 + activity.getResources().getDimension(R.dimen.spaceLG));
+        int visibleArea = screenHeight - ocultArea;
         int range = appbar.getTotalScrollRange();
         int offset;
 
-        if (ocultArea > 0){
-            if(y > visibleArea){
+        if (ocultArea > 0) {
+            if (y > visibleArea) {
                 Log.i("TESTEREPORT", "Y = " + y);
-                offset =  -(int)((float)(y-visibleArea)/appbarInitialHeight*range);
+                offset = -(int) ((float) (y - visibleArea) / appbarInitialHeight * range);
 
                 if (behavior != null) {
                     ValueAnimator valueAnimator = ValueAnimator.ofInt();
@@ -111,7 +108,7 @@ public class LayoutFocusControl extends PopupWindow implements ViewTreeObserver.
                     valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator animation) {
-                            behavior.setTopAndBottomOffset((Integer)animation.getAnimatedValue());
+                            behavior.setTopAndBottomOffset((Integer) animation.getAnimatedValue());
                             appbar.requestLayout();
                         }
                     });
@@ -131,11 +128,11 @@ public class LayoutFocusControl extends PopupWindow implements ViewTreeObserver.
         }
     }
 
-    public int getOcultArea(){
+    public int getOcultArea() {
         return ocultArea;
     }
 
-    public View getLastFlocus(){
+    public View getLastFlocus() {
         return lastFocus;
     }
 }
