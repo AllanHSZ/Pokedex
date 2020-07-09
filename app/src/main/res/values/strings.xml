@@ -4,11 +4,11 @@
     <string name="required">Obrigatório</string>
     <string name="name">Nome</string>
     <string name="input_image">Imagem (URL)</string>
-    <string name="input_name">Name *</string>
-    <string name="input_number">Nª *</string>
+    <string name="input_name">Nome *</string>
+    <string name="input_number">Nº *</string>
     <string name="botao_voltar">Botão voltar</string>
     <string name="adicionar">Adicionar</string>
-    <string name="salvar">salvar</string>
+    <string name="salvar">Salvar</string>
     <string name="input_tipo_primario">Tipo primário *</string>
     <string name="tipo_secundario">Tipo secundário</string>
     <string name="edit">Editar</string>

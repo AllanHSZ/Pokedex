@@ -28,4 +28,7 @@
     <dimen name="fabCradleVerticalOffset">8dp</dimen>
 
 
+    <dimen name="buttonCorner">24dp</dimen>
+
+
 </resources>

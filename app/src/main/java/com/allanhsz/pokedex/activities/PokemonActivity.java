@@ -1,11 +1,14 @@
 package com.allanhsz.pokedex.activities;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -25,8 +28,8 @@ import com.allanhsz.pokedex.utils.LayoutFocusControl;
 import com.allanhsz.pokedex.utils.StringUtils;
 import com.allanhsz.pokedex.utils.Types;
 import com.allanhsz.pokedex.utils.Utils;
-import com.allanhsz.pokedex.utils.Validation;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -127,6 +130,7 @@ public class PokemonActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
                 pokemon.getTypes()[0] = types.keyAt(p);
+                refreshColor();
             }
         });
 
@@ -172,14 +176,6 @@ public class PokemonActivity extends AppCompatActivity {
         });
     }
 
-    public void clear() {
-        image.setText("");
-        name.setText("");
-        number.setText("");
-        type1.setText("");
-        type2.setText("");
-    }
-
     public void setOper() {
         Bundle extras = getIntent().getExtras();
 
@@ -197,10 +193,39 @@ public class PokemonActivity extends AppCompatActivity {
         image.setText(pokemon.getImage());
         name.setText(pokemon.getName());
         number.setText(String.valueOf(pokemon.getNumber()));
-        number.setEnabled(false);
         type1.setText(allTypes.get(pokemon.getType(0)), false);
         type2.setText(allTypes.get(pokemon.getType(1)), false);
         loadImage();
+
+        refreshColor();
+    }
+
+    public void refreshColor(){
+        int color = Types.getTypeColor(this, pokemon.getType(0));
+        ColorStateList colorStateList = ColorStateList.valueOf(color);
+        action.setBackgroundTintList(colorStateList);
+
+        TextInputLayout type2Layout = findViewById(R.id.Type2Layout);
+
+        imageLayout.setBoxStrokeColor(color);
+        nameLayout.setBoxStrokeColor(color);
+        numberLayout.setBoxStrokeColor(color);
+        type1Layout.setBoxStrokeColor(color);
+        type2Layout.setBoxStrokeColor(color);
+
+        imageLayout.setHintTextColor(colorStateList);
+        nameLayout.setHintTextColor(colorStateList);
+        numberLayout.setHintTextColor(colorStateList);
+        type1Layout.setHintTextColor(colorStateList);
+        type2Layout.setHintTextColor(colorStateList);
+
+        CollapsingToolbarLayout view = findViewById(R.id.CollapsingToolbarLayout);
+        view.setBackgroundColor(color);
+        view.setContentScrimColor(color);
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(color);
     }
 
     public boolean validForm() {
@@ -232,11 +257,6 @@ public class PokemonActivity extends AppCompatActivity {
     }
 
     public void loadImage() {
-        if (Validation.isEmpty(image)) {
-            preview.setImageResource(R.drawable.ic_question);
-            imageLayout.setErrorEnabled(false);
-            return;
-        }
 
         String url = StringUtils.valueOrEmpty(image.getText());
 
@@ -259,7 +279,7 @@ public class PokemonActivity extends AppCompatActivity {
             return;
         }
 
-        imageLayout.setError("Url inválido");
+        imageLayout.setErrorEnabled(false);
         preview.setImageResource(R.drawable.ic_question);
     }
 

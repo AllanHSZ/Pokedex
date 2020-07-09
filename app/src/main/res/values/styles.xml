@@ -39,4 +39,8 @@
         <item name="android:background">@drawable/ripple_square_white</item>
     </style>
 
+    <style name="ButtonRounded" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/button_shape</item>
+    </style>
+
 </resources>
