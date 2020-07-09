@@ -1,13 +1,7 @@
 package com.allanhsz.pokedex.model;
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.webkit.URLUtil;
-import android.widget.ImageView;
-
-import com.allanhsz.pokedex.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
 
@@ -19,7 +13,8 @@ public class Pokemon implements Parcelable {
     private int number = 0;
     private int[] types = new int[2];
 
-    public Pokemon(){}
+    public Pokemon() {
+    }
 
     public String getId() {
         return id;
@@ -48,6 +43,7 @@ public class Pokemon implements Parcelable {
     public int getNumber() {
         return number;
     }
+
     public String getFormattedNumber() {
         return String.format(Locale.US, "%03d", number);
     }
@@ -61,8 +57,7 @@ public class Pokemon implements Parcelable {
     }
 
     public int getType(int position) {
-        if (types.length > position)
-            return types[position];
+        if (types.length > position) return types[position];
 
         return 0;
     }

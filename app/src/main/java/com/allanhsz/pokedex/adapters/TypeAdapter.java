@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.allanhsz.pokedex.R;
 
-public class TypeAdapter extends ArrayAdapter {
+public class TypeAdapter extends ArrayAdapter<String> {
 
-    private SparseArray<String> list;
-    private Context context;
+    private final SparseArray<String> list;
+    private final Context context;
 
-    public TypeAdapter( Context context, SparseArray<String> list) {
-        super(context,0);
+    public TypeAdapter(Context context, SparseArray<String> list) {
+        super(context, 0);
         this.context = context;
         this.list = list;
     }
@@ -27,7 +27,7 @@ public class TypeAdapter extends ArrayAdapter {
         if (view == null)
             view = LayoutInflater.from(context).inflate(R.layout.dropdown_menu_popup_item, parent, false);
 
-        ((TextView)view.findViewById(R.id.TextView)).setText(list.valueAt(position));
+        ((TextView) view.findViewById(R.id.TextView)).setText(list.valueAt(position));
 
         return view;
     }
@@ -38,7 +38,7 @@ public class TypeAdapter extends ArrayAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public String getItem(int position) {
         return list.valueAt(position);
     }
 

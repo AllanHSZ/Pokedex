@@ -26,7 +26,7 @@ public class LoadingFullScreen extends AlertDialog {
         Objects.requireNonNull(getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    public void setMessage(String text){
-        ((TextView)findViewById(R.id.Message)).setText(text);
+    public void setMessage(String text) {
+        ((TextView) findViewById(R.id.Message)).setText(text);
     }
 }

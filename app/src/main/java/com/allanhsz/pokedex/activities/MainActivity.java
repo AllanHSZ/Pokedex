@@ -1,21 +1,22 @@
 package com.allanhsz.pokedex.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.allanhsz.pokedex.utils.HandlerErro;
-import com.allanhsz.pokedex.model.Pokemon;
-import com.allanhsz.pokedex.adapters.PokemonAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
+import com.allanhsz.pokedex.adapters.PokemonAdapter;
+import com.allanhsz.pokedex.model.Pokemon;
+import com.allanhsz.pokedex.utils.HandlerErro;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +24,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ArrayList<Pokemon> pokemons = new ArrayList<>();
+    private final ArrayList<Pokemon> pokemons = new ArrayList<>();
     private ImageView loading;
     private RecyclerView rvPokemon;
     private PokemonAdapter adapter;
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, PokemonActivity.class));
             }
         });
-
     }
 
     @Override
@@ -55,30 +55,33 @@ public class MainActivity extends AppCompatActivity {
         getPokemons();
     }
 
-    public void getPokemons(){
+    public void getPokemons() {
         setLoading(true);
 
-        PokemonService.reference.list().enqueue(new Callback<ArrayList<Pokemon>>() {
+        PokemonService.reference.list().enqueue(new Callback<List<Pokemon>>() {
             @Override
-            public void onResponse(Call<ArrayList<Pokemon>> call, Response<ArrayList<Pokemon>> response) {
+            public void onResponse(Call<List<Pokemon>> call, Response<List<Pokemon>> response) {
                 setLoading(false);
-                if(response.isSuccessful()){
+
+                if (response.isSuccessful()) {
                     pokemons.clear();
                     pokemons.addAll(response.body());
                     adapter.notifyDataSetChanged();
-                } else {
-                    new HandlerErro(MainActivity.this, response);
+                    return;
                 }
+
+                new HandlerErro(MainActivity.this, response);
             }
+
             @Override
-            public void onFailure(Call<ArrayList<Pokemon>> call, Throwable t) {
+            public void onFailure(Call<List<Pokemon>> call, Throwable t) {
                 setLoading(false);
                 new HandlerErro(MainActivity.this, t);
             }
         });
     }
 
-    public void setLoading(boolean visible){
+    public void setLoading(boolean visible) {
         rvPokemon.setVisibility(visible ? View.GONE : View.VISIBLE);
         loading.setVisibility(visible ? View.VISIBLE : View.GONE);
     }

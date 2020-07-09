@@ -2,10 +2,13 @@ package com.allanhsz.pokedex.utils;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-public class Validation {
+public final class Validation {
 
-    public static boolean isEmpty(TextInputEditText textInputEditText){
-        return textInputEditText.getText() == null || textInputEditText.getText().toString().trim().isEmpty();
+    private Validation() {
+    }
+
+    public static boolean isEmpty(TextInputEditText textInputEditText) {
+        return ObjectUtils.isNotNull(textInputEditText.getText()) || StringUtils.isEmpty(textInputEditText.getText());
     }
 
 }
