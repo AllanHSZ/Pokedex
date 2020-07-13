@@ -46,27 +46,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="?attr/actionBarSize"
+        android:paddingTop="@dimen/spaceMD"
         android:visibility="gone"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-        style="@style/Widget.MaterialComponents.BottomAppBar"
-        android:id="@+id/bottomAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:backgroundTint="@color/bottomAppBar"
-        app:fabCradleMargin="@dimen/fabCradleMargin"
-        app:fabCradleVerticalOffset="@dimen/fabCradleVerticalOffset"
-        app:navigationIcon="@drawable/ic_menu"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/Add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/spaceXL"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_anchor="@+id/bottomAppBar"
         app:srcCompat="@drawable/ic_add_white"
         app:tint="@color/windowBackground" />
 
