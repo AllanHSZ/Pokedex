@@ -57,9 +57,21 @@ public class Pokemon implements Parcelable {
     }
 
     public int getType(int position) {
-        if (types.length > position) return types[position];
+        if (types.length > position)
+            return types[position];
 
         return 0;
+    }
+
+    public void setType(int index, int value) {
+        if (index > 0 && types.length == 1) {
+            int aux = types[0];
+            types = new int[2];
+            types[0] = aux;
+            types[1] = value;
+        }
+
+        types[index] = value;
     }
 
     public void setTypes(int[] types) {

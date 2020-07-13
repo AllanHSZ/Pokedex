@@ -19,7 +19,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.allanhsz.pokedex.Components.LoadingFullScreen;
+import com.allanhsz.pokedex.components.LoadingFullScreen;
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.adapters.TypeAdapter;
@@ -102,7 +102,7 @@ public class PokemonActivity extends AppCompatActivity {
         type2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-                pokemon.getTypes()[1] = allTypes.keyAt(p);
+                pokemon.setType(1, allTypes.keyAt(p));
             }
         });
 
@@ -129,7 +129,7 @@ public class PokemonActivity extends AppCompatActivity {
         type1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int p, long ld) {
-                pokemon.getTypes()[0] = types.keyAt(p);
+                pokemon.setType(0, types.keyAt(p));
                 refreshColor();
             }
         });

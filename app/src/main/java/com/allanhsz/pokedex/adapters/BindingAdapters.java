@@ -1,5 +1,6 @@
 package com.allanhsz.pokedex.adapters;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -25,9 +26,13 @@ public class BindingAdapters {
     }
 
     @BindingAdapter("app:srcVector")
-    public static void srcVector(ImageView ImageView, int resource) {
-        if (resource != 0)
-            ImageView.setImageResource(resource);
+    public static void srcVector(ImageView imageView, int resource) {
+        if (resource == 0) {
+            imageView.setVisibility(View.GONE);
+            return;
+        }
+
+        imageView.setImageResource(resource);
     }
 
 }

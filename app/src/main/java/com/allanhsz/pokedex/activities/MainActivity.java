@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.allanhsz.pokedex.PokemonService;
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         loading = findViewById(R.id.Loading);
         rvPokemon = findViewById(R.id.RvPokemon);
-        rvPokemon.setLayoutManager(new LinearLayoutManager(this));
+        rvPokemon.setLayoutManager(new GridLayoutManager(this, 1));
 
         adapter = new PokemonAdapter(this, pokemons);
         rvPokemon.setAdapter(adapter);

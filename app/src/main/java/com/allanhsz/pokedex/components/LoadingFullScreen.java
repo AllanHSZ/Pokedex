@@ -1,4 +1,4 @@
-package com.allanhsz.pokedex.Components;
+package com.allanhsz.pokedex.components;
 
 import android.app.AlertDialog;
 import android.content.Context;
