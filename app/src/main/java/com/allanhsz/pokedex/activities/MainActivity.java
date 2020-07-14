@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rvPokemon;
     private PokemonAdapter adapter;
     private FloatingActionButton add;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private final ArrayList<Pokemon> pokemons = new ArrayList<>();
 
@@ -40,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
         loading = findViewById(R.id.Loading);
 
         rvPokemon = findViewById(R.id.RvPokemon);
+        rvPokemon.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int topRowVerticalPosition =
+                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
         rvPokemon.setLayoutManager(new GridLayoutManager(this, 1));
         rvPokemon.post(new Runnable() {
             @Override
@@ -48,12 +65,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         adapter = new PokemonAdapter(this, pokemons);
         rvPokemon.setAdapter(adapter);
 
-        add = findViewById(R.id.Add);
+        swipeRefreshLayout = findViewById(R.id.SwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPokemons();
+            }
+        });
 
+        add = findViewById(R.id.Add);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setLoading(boolean visible) {
+        swipeRefreshLayout.setRefreshing(visible);
         rvPokemon.setVisibility(visible ? View.GONE : View.VISIBLE);
         loading.setVisibility(visible ? View.VISIBLE : View.GONE);
     }

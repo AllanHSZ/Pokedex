@@ -10,7 +10,7 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:statusBarColor">@color/windowBackground</item>
 
-        <item name="android:navigationBarColor" tools:targetApi="o_mr1">@color/bottomAppBar</item>
+<!--        <item name="android:navigationBarColor" tools:targetApi="o_mr1">@color/bottomAppBar</item>-->
     </style>
 
     <!-- Light Theme. -->
