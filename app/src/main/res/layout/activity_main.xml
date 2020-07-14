@@ -63,7 +63,7 @@
             android:layout_margin="@dimen/spaceXL"
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_add_white"
-            app:tint="@color/text_white" />
+            app:tint="@color/whiteEmphasis" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

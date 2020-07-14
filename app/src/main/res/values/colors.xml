@@ -8,10 +8,10 @@
     <color name="colorPrimaryDark">#a90000</color>
     <color name="colorAccent">#FF6C3D</color>
     <color name="windowBackground">@color/lightGray</color>
-    <color name="bottomAppBar">#ffffff </color>
+    <color name="navegationBar">#1e1e1e</color>
 
-    <color name="text_white">#DEFFFFFF</color>
-    <color name="white_70">#B3FFFFFF</color>
+    <color name="whiteEmphasis">#DEFFFFFF</color>
+    <color name="whiteNotEmphasis">#B3FFFFFF</color>
     <color name="item_decor1">#12FFFFFF</color>
     <color name="item_decor2">#0AFFFFFF</color>
     <color name="item_black_overlay">#1A000000</color>

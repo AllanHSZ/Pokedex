@@ -10,7 +10,6 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:statusBarColor">@color/windowBackground</item>
 
-<!--        <item name="android:navigationBarColor" tools:targetApi="o_mr1">@color/bottomAppBar</item>-->
     </style>
 
     <!-- Light Theme. -->
@@ -24,9 +23,10 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.FlatNav">
+    <style name="AppTheme.Flat">
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor" tools:targetApi="o_mr1">@color/windowBackground</item>
     </style>
 
     <style name="Button.Icon" parent="Widget.AppCompat.ImageButton">
@@ -41,11 +41,11 @@
     </style>
 
     <style name="Button.Icon.Huge.White">
-        <item name="android:tint">@color/text_white</item>
+        <item name="android:tint">@color/whiteEmphasis</item>
         <item name="android:background">@drawable/ripple_square_white</item>
     </style>
     <style name="Button.Icon.White">
-        <item name="android:tint">@color/text_white</item>
+        <item name="android:tint">@color/whiteEmphasis</item>
         <item name="android:background">@drawable/ripple_square_white</item>
     </style>
 
