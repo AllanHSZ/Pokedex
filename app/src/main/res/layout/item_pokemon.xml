@@ -14,9 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spaceLG"
+        android:layout_marginStart="@dimen/spaceMD"
         android:layout_marginTop="@dimen/spaceMD"
-        android:layout_marginEnd="@dimen/spaceLG"
+        android:layout_marginEnd="@dimen/spaceMD"
         android:layout_marginBottom="@dimen/spaceMD"
         android:stateListAnimator="@animator/item_state"
         android:background="@drawable/shape_rounded_8dp"

@@ -1,11 +1,13 @@
 package com.allanhsz.pokedex.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,8 +16,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.allanhsz.pokedex.PokemonService;
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.adapters.PokemonAdapter;
+import com.allanhsz.pokedex.components.LoadingFullScreen;
 import com.allanhsz.pokedex.model.Pokemon;
 import com.allanhsz.pokedex.utils.HandlerErro;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -25,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements  PokemonAdapter.OnItemListener{
 
     private ImageView loading;
     private RecyclerView rvPokemon;
@@ -45,25 +49,26 @@ public class MainActivity extends AppCompatActivity {
         rvPokemon = findViewById(R.id.RvPokemon);
         rvPokemon.addOnScrollListener(new RecyclerView.OnScrollListener(){
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                int topRowVerticalPosition = (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int topRowVerticalPosition = recyclerView.getChildCount() == 0 ? 0 : recyclerView.getChildAt(0).getTop();
                 swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
             }
 
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
-        rvPokemon.setLayoutManager(new GridLayoutManager(this, 1));
+        rvPokemon.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.itemsPerRow)));
         rvPokemon.post(new Runnable() {
             @Override
             public void run() {
-                rvPokemon.setPadding(0 , (int)getResources().getDimension(R.dimen.spaceMD),0,(int)(getResources().getDimension(R.dimen.spaceLG)*2+add.getHeight()));
+                int padding = (int)getResources().getDimension(R.dimen.spaceMD);
+                rvPokemon.setPadding(padding, padding, padding,(int)(getResources().getDimension(R.dimen.spaceLG)*2+add.getHeight()));
             }
         });
 
-        adapter = new PokemonAdapter(this, pokemons);
+        adapter = new PokemonAdapter(pokemons, this);
         rvPokemon.setAdapter(adapter);
 
         swipeRefreshLayout = findViewById(R.id.SwipeRefreshLayout);
@@ -121,4 +126,47 @@ public class MainActivity extends AppCompatActivity {
         loading.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
+    @Override
+    public void onItemClick(Pokemon item) {
+        startActivity(new Intent(MainActivity.this, PokemonActivity.class).putExtra("pokemon", item));
+    }
+
+    @Override
+    public void onItemLongClick(final Pokemon pokemon) {
+        new MaterialAlertDialogBuilder(MainActivity.this)
+            .setTitle("Deletar pokémon ?")
+            .setMessage("Não será possivel recuperá-lo.")
+            .setPositiveButton("DELETAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    final LoadingFullScreen loadingFullScreen = new LoadingFullScreen(MainActivity.this);
+                    loadingFullScreen.setMessage("deletando");
+                    loadingFullScreen.show();
+
+                    PokemonService.reference.delete(pokemon.getId()).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            Toast.makeText(MainActivity.this, "Pokemon removido.", Toast.LENGTH_SHORT).show();
+                            int index = pokemons.indexOf(pokemon);
+                            pokemons.remove(index);
+                            adapter.notifyItemRemoved(index);
+
+                            loadingFullScreen.dismiss();
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                            Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            loadingFullScreen.dismiss();
+                        }
+                    });
+                }
+            })
+            .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            }).show();
+    }
 }

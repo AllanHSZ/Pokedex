@@ -29,6 +29,6 @@
 
 
     <dimen name="buttonCorner">24dp</dimen>
-
+    <integer name="itemsPerRow">1</integer>
 
 </resources>

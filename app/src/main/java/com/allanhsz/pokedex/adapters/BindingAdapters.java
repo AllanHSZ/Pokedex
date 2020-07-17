@@ -27,11 +27,7 @@ public class BindingAdapters {
 
     @BindingAdapter("app:srcVector")
     public static void srcVector(ImageView imageView, int resource) {
-        if (resource == 0) {
-            imageView.setVisibility(View.GONE);
-            return;
-        }
-
+        imageView.setVisibility(resource == 0 ? View.GONE : View.VISIBLE);
         imageView.setImageResource(resource);
     }
 
