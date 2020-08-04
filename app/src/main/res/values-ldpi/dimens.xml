@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!--            SPACE         -->
     <dimen name="spaceSM">4dp</dimen>
     <dimen name="spaceMD">8dp</dimen>
@@ -11,27 +10,27 @@
 
     <!--       ITEM POKEMON       -->
     <dimen name="item_elevation">6dp</dimen>
-    <dimen name="item_elevation_hover">12dp</dimen>
+    <dimen name="item_elevation_hover">8dp</dimen>
     <dimen name="item_pressed_elevation">0dp</dimen>
     <dimen name="item_pressed_y">3dp</dimen>
     <dimen name="item_focus_y">-4dp</dimen>
-
-    <integer name="item_anim_duration">200</integer>
-
+    <dimen name="itemPokemonCorner">12dp</dimen>
     <dimen name="item_decor_big">70dp</dimen>
     <dimen name="item_image">80dp</dimen>
     <dimen name="item_type">24dp</dimen>
     <!--==========================-->
 
-    <dimen name="itemPokemonCorner">12dp</dimen>
+    <dimen name="pokemonImage">160dp</dimen>
+    <dimen name="numberWidth">82dp</dimen>
+    <dimen name="btnMarginHorizontal">24dp</dimen>
+    <dimen name="btnMarginVertical">16dp</dimen>
     <dimen name="fabCradleMargin">12dp</dimen>
     <dimen name="fabCradleVerticalOffset">8dp</dimen>
 
-
-    <dimen name="buttonCorner">24dp</dimen>
     <integer name="itemsPerRow">1</integer>
 
-    <dimen name="loading">40dp</dimen>
-    <dimen name="errorImage">300dp</dimen>
+    <dimen name="loading">30dp</dimen>
+    <dimen name="errorImage">200dp</dimen>
+
 
 </resources>

@@ -3,12 +3,15 @@ package com.allanhsz.pokedex.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,7 +21,7 @@ import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.adapters.PokemonAdapter;
 import com.allanhsz.pokedex.components.LoadingFullScreen;
 import com.allanhsz.pokedex.model.Pokemon;
-import com.allanhsz.pokedex.utils.HandlerErro;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -37,7 +40,11 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
     private FloatingActionButton add;
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private ConstraintLayout errorLayout;
+    private TextView errorTitle, errorMessage, notFound;
+
     private final ArrayList<Pokemon> pokemons = new ArrayList<>();
+    private AppBarLayout.LayoutParams toolbarParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
         setContentView(R.layout.activity_main);
 
         loading = findViewById(R.id.Loading);
+        errorLayout = findViewById(R.id.ErrorLayout);
+        errorTitle = findViewById(R.id.ErrorTitle);
+        errorMessage = findViewById(R.id.ErrorMessage);
 
         rvPokemon = findViewById(R.id.RvPokemon);
         rvPokemon.addOnScrollListener(new RecyclerView.OnScrollListener(){
@@ -86,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
                 startActivity(new Intent(MainActivity.this, PokemonActivity.class));
             }
         });
+
+        ConstraintLayout toolbar = findViewById(R.id.Toolbar);
+        toolbarParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+
+        notFound = findViewById(R.id.NotFound);
     }
 
     @Override
@@ -96,34 +111,68 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
 
     public void getPokemons() {
         setLoading(true);
-
-        PokemonService.reference.list().enqueue(new Callback<List<Pokemon>>() {
+        errorLayout.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onResponse(Call<List<Pokemon>> call, Response<List<Pokemon>> response) {
-                setLoading(false);
+            public void run() {
+                PokemonService.reference.list().enqueue(new Callback<List<Pokemon>>() {
+                    @Override
+                    public void onResponse(Call<List<Pokemon>> call, Response<List<Pokemon>> response) {
+                        setLoading(false);
 
-                if (response.isSuccessful()) {
-                    pokemons.clear();
-                    pokemons.addAll(response.body());
-                    adapter.notifyDataSetChanged();
-                    return;
-                }
+                        if (response.isSuccessful()) {
+                            pokemons.addAll(response.body());
+                            if (pokemons.size() > 0) {
+                                enableToolbarEnter();
+                                pokemons.clear();
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                notFound.setVisibility(View.VISIBLE);
+                            }
+                            return;
+                        }
 
-                new HandlerErro(MainActivity.this, response);
+                        setError("Erro: " + response.code(), response.message());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Pokemon>> call, Throwable t) {
+                        setError("Sem conexão", "Verifique a sua conexão com a internet.");
+                    }
+                });
             }
-
-            @Override
-            public void onFailure(Call<List<Pokemon>> call, Throwable t) {
-                setLoading(false);
-                new HandlerErro(MainActivity.this, t);
-            }
-        });
+        }, 500);
     }
 
     public void setLoading(boolean visible) {
+        disableToolbarEnter();
+        notFound.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(visible);
         rvPokemon.setVisibility(visible ? View.GONE : View.VISIBLE);
         loading.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    public void setError(String title, String message){
+        if (title == null) {
+            enableToolbarEnter();
+            errorLayout.setVisibility(View.GONE);
+            rvPokemon.setVisibility(View.VISIBLE);
+        } else {
+            setLoading(false);
+            disableToolbarEnter();
+            rvPokemon.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+            errorTitle.setText(title);
+            errorMessage.setText(message);
+        }
+    }
+
+    public void disableToolbarEnter(){
+        toolbarParams.setScrollFlags(0);
+    }
+
+    public void enableToolbarEnter(){
+        toolbarParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
     }
 
     @Override

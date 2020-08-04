@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/Loading"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/loading"
+            android:layout_height="@dimen/loading"
             android:layout_gravity="center"
             android:scaleX="1.3"
             android:scaleY="1.3"
@@ -28,6 +28,7 @@
             android:translationY="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="enterAlways|scroll">
@@ -52,8 +53,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:paddingTop="@dimen/spaceMD"
-            android:visibility="gone"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+            android:visibility="visible"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/Add"
@@ -64,6 +65,60 @@
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_add_white"
             app:tint="@color/whiteEmphasis" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ErrorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="@dimen/errorImage"
+                android:layout_height="@dimen/errorImage"
+                android:layout_marginBottom="8dp"
+                android:scaleType="fitCenter"
+                android:tint="?attr/colorOnBackground"
+                app:layout_constraintBottom_toTopOf="@+id/ErrorTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/sad_pikachu" />
+
+            <TextView
+                android:id="@+id/ErrorTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@android:string/VideoView_error_button"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.55" />
+
+            <TextView
+                android:id="@+id/ErrorMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spaceSM"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ErrorTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/NotFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/pokemon_not_found"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

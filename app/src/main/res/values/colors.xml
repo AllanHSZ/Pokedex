@@ -16,7 +16,9 @@
     <color name="item_decor2">#0AFFFFFF</color>
     <color name="item_black_overlay">#1A000000</color>
 
-    <color name="whiteRipple">#4DFFFFFF</color>
+    <color name="toast_background">#2c2c2c</color>
+
+    <color name="whiteRipple">#66FFFFFF</color>
 
     <color name="type0">#EEEEEE</color>
     <color name="type1">#A0A29F</color>
