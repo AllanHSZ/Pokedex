@@ -174,6 +174,7 @@ public class PokemonActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
     }
 
     public void setOper() {

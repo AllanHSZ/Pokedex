@@ -53,4 +53,13 @@
         <item name="android:background">@drawable/button_shape</item>
     </style>
 
+    <style name="Loading">
+        <item name="android:layout_width">@dimen/loading</item>
+        <item name="android:layout_height">@dimen/loading</item>
+        <item name="android:scaleX">1.3</item>
+        <item name="android:scaleY">1.3</item>
+        <item name="android:src">@drawable/loading</item>
+        <item name="android:contentDescription">@string/carregando</item>
+    </style>
+
 </resources>
