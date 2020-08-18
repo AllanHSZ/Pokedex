@@ -161,7 +161,7 @@ public class PokemonActivity extends AppCompatActivity {
                             if (loading.isShowing())
                                 loading.dismiss();
 
-                            Toast.makeText(getBaseContext(), "Não foi possível fazer a conexão", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), getString(R.string.falha_conexao_verifique_sua_conexao), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -231,7 +231,7 @@ public class PokemonActivity extends AppCompatActivity {
 
     public boolean validForm() {
         if (Objects.requireNonNull(name.getText()).toString().trim().isEmpty()) {
-            nameLayout.setError("Preenchimento obrigatorio");
+            nameLayout.setError(getString(R.string.preenchimento_obrigatorio));
             nameLayout.requestFocus();
             return false;
         }
@@ -239,7 +239,7 @@ public class PokemonActivity extends AppCompatActivity {
         nameLayout.setErrorEnabled(false);
 
         if (Objects.requireNonNull(number.getText()).toString().trim().isEmpty()) {
-            numberLayout.setError("Obrigatorio");
+            numberLayout.setError(getString(R.string.obrigatorio));
             numberLayout.requestFocus();
             return false;
         }
@@ -252,7 +252,7 @@ public class PokemonActivity extends AppCompatActivity {
 
         }
 
-        type1Layout.setError("Obrigatorio");
+        type1Layout.setError(getString(R.string.obrigatorio));
         type1Layout.requestFocus();
         return false;
     }
@@ -271,7 +271,7 @@ public class PokemonActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Exception e) {
-                            imageLayout.setError("Url invido");
+                            imageLayout.setError(getString(R.string.url_invaldo));
                             preview.setImageResource(R.drawable.ic_question);
                         }
                     });

@@ -169,19 +169,19 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
     @Override
     public void onItemLongClick(final Pokemon pokemon) {
         new MaterialAlertDialogBuilder(MainActivity.this)
-            .setTitle("Deletar pokémon ?")
-            .setMessage("Não será possivel recuperá-lo.")
-            .setPositiveButton("DELETAR", new DialogInterface.OnClickListener() {
+            .setTitle(getString(R.string.deletar_pokemon))
+            .setMessage(getString(R.string.nao_sera_possivel_recuperalo))
+            .setPositiveButton(getString(R.string.deletar), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     final LoadingFullScreen loadingFullScreen = new LoadingFullScreen(MainActivity.this);
-                    loadingFullScreen.setMessage("deletando");
+                    loadingFullScreen.setMessage(getString(R.string.deletando));
                     loadingFullScreen.show();
 
                     PokemonService.reference.delete(pokemon.getId()).enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            Toast.makeText(MainActivity.this, "Pokemon removido.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.pokemon_removido), Toast.LENGTH_SHORT).show();
                             int index = pokemons.indexOf(pokemon);
                             pokemons.remove(index);
                             adapter.notifyItemRemoved(index);
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
                     });
                 }
             })
-            .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            .setNegativeButton(getString(R.string.cancelar), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
