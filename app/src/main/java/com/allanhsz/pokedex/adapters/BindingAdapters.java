@@ -7,6 +7,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.allanhsz.pokedex.R;
 import com.allanhsz.pokedex.utils.StringUtils;
+import com.allanhsz.pokedex.utils.Types;
 import com.squareup.picasso.Picasso;
 
 public class BindingAdapters {
@@ -25,10 +26,11 @@ public class BindingAdapters {
         imageView.setImageResource(R.drawable.ic_question);
     }
 
-    @BindingAdapter("app:srcVector")
-    public static void srcVector(ImageView imageView, int resource) {
-        imageView.setVisibility(resource == 0 ? View.GONE : View.VISIBLE);
-        imageView.setImageResource(resource);
+    @BindingAdapter("app:srcPokemonType")
+    public static void srcPokemonType(ImageView imageView, int type) {
+        imageView.setVisibility(type == 0 ? View.GONE : View.VISIBLE);
+        imageView.setImageResource(Types.getTypeImage(imageView.getContext(), type));
+        imageView.setContentDescription(imageView.getContext().getString(R.string.tipo_descricao).replace("#", Types.getTypeName(imageView.getContext(), type)));
     }
 
 }

@@ -25,6 +25,7 @@
     <string name="pokemon_removido">Pokémon removido com sucesso.</string>
     <string name="salvar">Salvar</string>
     <string name="sem_conexao">Sem conexão</string>
+    <string name="tipo_descricao">Tipo #</string>
     <string name="tipo_secundario">Tipo secundário</string>
     <string name="url_invaldo">URL Inválido</string>
     <string name="verifique_a_conexao">Verifique a sua conexão com a internet.</string>

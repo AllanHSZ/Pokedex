@@ -78,10 +78,7 @@ public class Types {
     }
 
     public static int getTypeImage(Context context, int type){
-        if (type > 0)
-            return context.getResources().getIdentifier("ic_type"+type, "drawable", context.getPackageName());
-
-        return 0;
+        return type > 0 ? context.getResources().getIdentifier("ic_type"+type, "drawable", context.getPackageName()) : 0;
     }
 
     public static int getTypeColor(Context context, int type){
@@ -90,12 +87,6 @@ public class Types {
 
     public static String getTypeName(Context context, int type){
         return context.getString(context.getResources().getIdentifier("type"+type, "string", context.getPackageName()));
-//        context.getString()
     }
 
-//    public static ArrayList<String> getSecondTypes(Context context){
-//        ArrayList<String> secondType = getTypes(context);
-//        secondType.add(0, context.getResources().getString(R.string.nenhum));
-//        return secondType;
-//    }
 }
