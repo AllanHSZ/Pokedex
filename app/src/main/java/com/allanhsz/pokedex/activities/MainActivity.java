@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements  PokemonAdapter.O
         rvPokemon.post(new Runnable() {
             @Override
             public void run() {
-                int padding = (int)getResources().getDimension(R.dimen.spaceMD);
-                rvPokemon.setPadding(padding, padding, padding,(int)(getResources().getDimension(R.dimen.spaceLG)*2+add.getHeight()));
+                int padding = (int)getResources().getDimension(R.dimen.medium);
+                rvPokemon.setPadding(padding, padding, padding,(int)(getResources().getDimension(R.dimen.large)*2+add.getHeight()));
             }
         });
 

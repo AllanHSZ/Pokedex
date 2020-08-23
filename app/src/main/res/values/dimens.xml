@@ -2,11 +2,11 @@
 <resources>
 
     <!--            SPACE         -->
-    <dimen name="spaceSM">4dp</dimen>
-    <dimen name="spaceMD">8dp</dimen>
-    <dimen name="spaceLG">16dp</dimen>
-    <dimen name="spaceXL">24dp</dimen>
-    <dimen name="spaceXXL">40dp</dimen>
+    <dimen name="small">4dp</dimen>
+    <dimen name="medium">8dp</dimen>
+    <dimen name="large">16dp</dimen>
+    <dimen name="xlarge">24dp</dimen>
+    <dimen name="huge">32dp</dimen>
     <!--==========================-->
 
     <!--       ITEM POKEMON       -->
@@ -15,19 +15,18 @@
     <dimen name="item_pressed_elevation">0dp</dimen>
     <dimen name="item_pressed_y">3dp</dimen>
     <dimen name="item_focus_y">-4dp</dimen>
-
-    <integer name="item_anim_duration">200</integer>
-
-    <dimen name="item_decor_big">70dp</dimen>
+    <dimen name="item_decor_small">70dp</dimen>
     <dimen name="item_image">80dp</dimen>
     <dimen name="item_type">24dp</dimen>
+    <integer name="item_anim_duration">200</integer>
     <!--==========================-->
 
     <dimen name="itemPokemonCorner">12dp</dimen>
+    <dimen name="numberWidth">100dp</dimen>
     <dimen name="fabCradleMargin">12dp</dimen>
     <dimen name="fabCradleVerticalOffset">8dp</dimen>
 
-
+    <dimen name="buttonMarginHorizontal">40dp</dimen>
     <dimen name="buttonCorner">24dp</dimen>
     <integer name="itemsPerRow">1</integer>
 

@@ -88,11 +88,9 @@ public class LayoutFocusControl extends PopupWindow implements ViewTreeObserver.
         view = ((View) view.getParent().getParent());
 
         int[] l = new int[2];
-//        view.getLocationOnScreen(l);
-
         view.getLocationInWindow(l);
 
-        int y = (int) (l[1] + view.getHeight() / 2 + activity.getResources().getDimension(R.dimen.spaceLG));
+        int y = (int) (l[1] + view.getHeight() / 2 + activity.getResources().getDimension(R.dimen.large));
         int visibleArea = screenHeight - ocultArea;
         int range = appbar.getTotalScrollRange();
         int offset;

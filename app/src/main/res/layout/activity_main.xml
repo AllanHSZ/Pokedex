@@ -31,7 +31,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spaceLG"
+                    android:layout_marginStart="@dimen/large"
                     android:text="@string/app_name"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:paddingTop="@dimen/spaceMD"
+            android:paddingTop="@dimen/medium"
             android:visibility="visible"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/spaceXL"
+            android:layout_margin="@dimen/xlarge"
             app:backgroundTint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_add_white"
             app:tint="@color/whiteEmphasis" />
@@ -72,7 +72,6 @@
                 android:id="@+id/imageView3"
                 android:layout_width="@dimen/errorImage"
                 android:layout_height="@dimen/errorImage"
-                android:layout_marginBottom="8dp"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toTopOf="@+id/ErrorTitle"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +96,7 @@
                 android:id="@+id/ErrorMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spaceSM"
+                android:layout_marginTop="@dimen/small"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
