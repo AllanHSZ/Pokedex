@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--            SPACE         -->
+    <dimen name="small">2dp</dimen>
+    <dimen name="medium">6dp</dimen>
+    <dimen name="large">12dp</dimen>
+    <dimen name="xlarge">18dp</dimen>
+    <dimen name="huge">24dp</dimen>
+    <!--==========================-->
+
+    <!--       ITEM POKEMON       -->
+    <dimen name="item_decor_small">48dp</dimen>
+    <dimen name="item_image">60dp</dimen>
+    <dimen name="item_type">22dp</dimen>
+    <!--==========================-->
+
+    <dimen name="itemPokemonCorner">12dp</dimen>
+    <dimen name="numberWidth">100dp</dimen>
+
+    <dimen name="buttonMarginHorizontal">0dp</dimen>
+    <dimen name="buttonCorner">24dp</dimen>
+    <integer name="itemsPerRow">1</integer>
+
+    <dimen name="loading">32dp</dimen>
+    <dimen name="errorImage">170dp</dimen>
+
+</resources>
