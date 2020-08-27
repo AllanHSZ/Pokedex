@@ -72,6 +72,7 @@
                 android:id="@+id/imageView3"
                 android:layout_width="@dimen/errorImage"
                 android:layout_height="@dimen/errorImage"
+                android:layout_marginBottom="@dimen/small"
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toTopOf="@+id/ErrorTitle"
                 app:layout_constraintEnd_toEndOf="parent"
